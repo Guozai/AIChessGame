@@ -42,7 +42,7 @@ public class Piece extends StackPane {
         final Image imgWPawn = new Image(ChessGame.class.getResourceAsStream("Chess_plt60.png"));
         final Image imgWRook = new Image(ChessGame.class.getResourceAsStream("Chess_rlt60.png"));
         final Image imgWBishop = new Image(ChessGame.class.getResourceAsStream("Chess_blt60.png"));
-        final Image imgWKnightL = new Image(ChessGame.class.getResourceAsStream("Chess_klt60.png"));
+        final Image imgWKnightL = new Image(ChessGame.class.getResourceAsStream("Chess_nlt60.png"));
         final Image imgWQueen = new Image(ChessGame.class.getResourceAsStream("Chess_qlt60.png"));
         final Image imgWKing = new Image(ChessGame.class.getResourceAsStream("Chess_klt60.png"));
 

@@ -11,6 +11,7 @@ import javafx.scene.shape.Rectangle;
 public class Tile extends Rectangle {
 
     private Piece piece;
+    private boolean isHighlighted = false;
 
     public boolean hasPiece() {
         return piece != null;
@@ -24,14 +25,18 @@ public class Tile extends Rectangle {
         this.piece = piece;
     }
 
-    private boolean isTileBlack = false;
+    public boolean getHighlight() { return isHighlighted; }
+
+    public void setHighlight(boolean isHighlighted) { this.isHighlighted = isHighlighted; }
+
+    private boolean isTileGray = false;
 
     public boolean getPreviousTileColor() {
-        return isTileBlack;
+        return isTileGray;
     }
 
-    public void setPreviousTileColor(boolean isTileBlack) {
-        this.isTileBlack = isTileBlack;
+    public void setPreviousTileColor(boolean isTileGray) {
+        this.isTileGray = isTileGray;
     }
 
     public Tile(boolean light, int x, int y) {

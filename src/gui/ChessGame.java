@@ -17,6 +17,7 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import logic.CheckMoveValidation;
 
 /**
  * Created by yipin on 15/07/2017.
@@ -138,15 +139,26 @@ public class ChessGame extends Application {
         window.show();
     }
 
-    int x0, y0;
+    private int x0, y0;
     /* Move the chess piece */
     private Piece makePiece (PieceType type, int x, int y) {
         Piece piece = new Piece(type, x, y);
 
         piece.setOnMousePressed(e -> {
-
             x0 = toBoard(piece.getOldX());
             y0 = toBoard(piece.getOldY());
+
+            int tempX, tempY;
+
+            CheckMoveValidation moveValidation = new CheckMoveValidation();
+            for (tempX = 0; tempX < 8; tempX++) {
+                for (tempY = 0; tempY < 8; tempY++) {
+                    if (moveValidation.checkValidMove(piece.getType(), tempX, tempY, x0, y0)) {
+                        highlightTile(tempX, tempY);
+                        board[tempX][tempY].setHighlight(true);
+                    }
+                }
+            }
         });
 
         piece.setOnMouseDragged(e -> {
@@ -156,7 +168,16 @@ public class ChessGame extends Application {
         piece.setOnMouseReleased(e -> {
             int newX = toBoard(piece.getLayoutX());
             int newY = toBoard(piece.getLayoutY());
+            int tempX, tempY;
             boolean isMovable = true;
+
+            for (tempX = 0; tempX < 8; tempX++) {
+                for (tempY = 0; tempY < 8; tempY++) {
+                    if (board[tempX][tempY].getHighlight()) {
+                        stopHighlightTile(tempX, tempY);
+                    }
+                }
+            }
 
             if (isMovable == false) {
                 piece.abortMove();
@@ -181,7 +202,7 @@ public class ChessGame extends Application {
 
     /* Highlighting the tiles */
     private void highlightTile(int x, int y) {
-        if (board[x][y].getFill().equals(Color.BLACK)) {
+        if (board[x][y].getFill().equals(Color.DARKGRAY)) {
             board[x][y].setPreviousTileColor(true);
         } else {
             board[x][y].setPreviousTileColor(false);
@@ -191,7 +212,7 @@ public class ChessGame extends Application {
 
     private void stopHighlightTile(int x, int y) {
         if (board[x][y].getPreviousTileColor() == true) {
-            board[x][y].setFill(Color.BLACK);
+            board[x][y].setFill(Color.DARKGRAY);
         } else {
             board[x][y].setFill(Color.WHITE);
         }
