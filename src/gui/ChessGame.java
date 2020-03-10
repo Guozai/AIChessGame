@@ -95,8 +95,28 @@ public class ChessGame extends Application {
         Piece bPawn6 = makePiece(PieceType.BPAWN, 5, 1);
         Piece bPawn7 = makePiece(PieceType.BPAWN, 6, 1);
         Piece bPawn8 = makePiece(PieceType.BPAWN, 7, 1);
+
+        board[0][0].setPiece(bRook1);
+        board[1][0].setPiece(bKnight1);
+        board[2][0].setPiece(bBishop1);
+        board[3][0].setPiece(bQueen);
+        board[4][0].setPiece(bKing);
+        board[5][0].setPiece(bBishop2);
+        board[6][0].setPiece(bKnight2);
+        board[7][0].setPiece(bRook2);
+
+        board[0][1].setPiece(bPawn1);
+        board[1][1].setPiece(bPawn2);
+        board[2][1].setPiece(bPawn3);
+        board[3][1].setPiece(bPawn4);
+        board[4][1].setPiece(bPawn5);
+        board[5][1].setPiece(bPawn6);
+        board[6][1].setPiece(bPawn7);
+        board[7][1].setPiece(bPawn8);
+
         pieceGroup.getChildren().addAll(bRook1, bKnight1, bBishop1, bQueen, bKing, bBishop2, bKnight2, bRook2);
         pieceGroup.getChildren().addAll(bPawn1, bPawn2, bPawn3, bPawn4, bPawn5, bPawn6, bPawn7, bPawn8);
+
         Piece wRook1 = makePiece(PieceType.WROOK, 0, 7);
         Piece wKnight1 = makePiece(PieceType.WKNIGHT, 1, 7);
         Piece wBishop1 = makePiece(PieceType.WBISH0P, 2, 7);
@@ -114,6 +134,25 @@ public class ChessGame extends Application {
         Piece wPawn6 = makePiece(PieceType.WPAWN, 5, 6);
         Piece wPawn7 = makePiece(PieceType.WPAWN, 6, 6);
         Piece wPawn8 = makePiece(PieceType.WPAWN, 7, 6);
+
+        board[0][7].setPiece(wRook1);
+        board[1][7].setPiece(wKnight1);
+        board[2][7].setPiece(wBishop1);
+        board[3][7].setPiece(wQueen);
+        board[4][7].setPiece(wKing);
+        board[5][7].setPiece(wBishop2);
+        board[6][7].setPiece(wKnight2);
+        board[7][7].setPiece(wRook2);
+
+        board[0][6].setPiece(wPawn1);
+        board[1][6].setPiece(wPawn2);
+        board[2][6].setPiece(wPawn3);
+        board[3][6].setPiece(wPawn4);
+        board[4][6].setPiece(wPawn5);
+        board[5][6].setPiece(wPawn6);
+        board[6][6].setPiece(wPawn7);
+        board[7][6].setPiece(wPawn8);
+
         pieceGroup.getChildren().addAll(wPawn1, wPawn2, wPawn3, wPawn4, wPawn5, wPawn6, wPawn7, wPawn8);
         pieceGroup.getChildren().addAll(wRook1, wKnight1, wBishop1, wQueen, wKing, wBishop2, wKnight2, wRook2);
 
@@ -134,7 +173,7 @@ public class ChessGame extends Application {
     public void start(Stage primaryStage) throws Exception {
         window = primaryStage;
         gameScene = new Scene(createContent());
-        window.setTitle("Chess Like Game");
+        window.setTitle("Chess Game");
         window.setScene(gameScene);
         window.show();
     }
@@ -153,7 +192,7 @@ public class ChessGame extends Application {
             CheckMoveValidation moveValidation = new CheckMoveValidation();
             for (tempX = 0; tempX < 8; tempX++) {
                 for (tempY = 0; tempY < 8; tempY++) {
-                    if (moveValidation.checkValidMove(piece.getType(), tempX, tempY, x0, y0)) {
+                    if (moveValidation.checkValidMove(piece.getType(), tempX, tempY, x0, y0, board)) {
                         highlightTile(tempX, tempY);
                         board[tempX][tempY].setHighlight(true);
                     }
