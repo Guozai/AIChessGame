@@ -17,6 +17,8 @@ public class CheckMoveValidation {
     }
 
     boolean checkPieceDefaultValid(PieceType type, int x, int y, int x0, int y0, Tile[][] board) {
+//        System.out.println(board[1][1].getPiece().getType());
+
         // The chessboard is displayed as following
         //   0 1 2 3 4 5 6 7
         // 0| | | | | | | | |
@@ -58,39 +60,114 @@ public class CheckMoveValidation {
                 }
                 break;
             case BROOK:
+                if (x == x0 || y == y0) {
+                    flag = true;
+                    if (x == x0 && y < y0) {
+                        System.out.println("--------------------------------------");
+                        for (int i = y; i < y0; i++) {
+                            if (board[x][i].hasPiece()) {
+                                System.out.println("board[" + x + "][" + i + "] = " + board[x][i].getPiece().getType());
+                            }
+                            if (board[x][i].hasPiece() && (board[x][i].getPiece().getType() != PieceType.WPAWN &&
+                                        board[x][i].getPiece().getType() != PieceType.WROOK &&
+                                        board[x][i].getPiece().getType() != PieceType.WBISH0P &&
+                                        board[x][i].getPiece().getType() != PieceType.WKNIGHT &&
+                                        board[x][i].getPiece().getType() != PieceType.WQUEEN &&
+                                        board[x][i].getPiece().getType() != PieceType.WKING))
+                                flag = false;
+                        }
+                    }
+                    else if (x == x0 && y > y0) {
+                        System.out.println("--------------------------------------");
+                        for (int i = y0 + 1; i <= y; i++) {
+                            if (board[x][i].hasPiece()) {
+                                System.out.println("board[" + x + "][" + i + "] = " + board[x][i].getPiece().getType());
+                            }
+                            if (board[x][i].hasPiece() && (board[x][i].getPiece().getType() != PieceType.WPAWN &&
+                                    board[x][i].getPiece().getType() != PieceType.WROOK &&
+                                    board[x][i].getPiece().getType() != PieceType.WBISH0P &&
+                                    board[x][i].getPiece().getType() != PieceType.WKNIGHT &&
+                                    board[x][i].getPiece().getType() != PieceType.WQUEEN &&
+                                    board[x][i].getPiece().getType() != PieceType.WKING))
+                                flag = false;
+                        }
+                    }
+                    else if (y == y0 && x < x0) {
+                        System.out.println("--------------------------------------");
+                        for (int i = x; i < x0; i++) {
+                            if (board[i][y].hasPiece()) {
+                                System.out.println("board[" + i + "][" + y + "] = " + board[i][y].getPiece().getType());
+                            }
+                            if (board[i][y].hasPiece() && (board[i][y].getPiece().getType() != PieceType.WPAWN &&
+                                    board[i][y].getPiece().getType() != PieceType.WROOK &&
+                                    board[i][y].getPiece().getType() != PieceType.WBISH0P &&
+                                    board[i][y].getPiece().getType() != PieceType.WKNIGHT &&
+                                    board[i][y].getPiece().getType() != PieceType.WQUEEN &&
+                                    board[i][y].getPiece().getType() != PieceType.WKING))
+                                flag = false;
+                        }
+                    }
+                    else if (y == y0 && x > x0) {
+                        System.out.println("--------------------------------------");
+                        for (int i = x0 + 1; i <= x; i++) {
+                            if (board[i][y].hasPiece()) {
+                                System.out.println("board[" + i + "][" + y + "] = " + board[i][y].getPiece().getType());
+                            }
+                            if (board[i][y].hasPiece() && (board[i][y].getPiece().getType() != PieceType.WPAWN &&
+                                    board[i][y].getPiece().getType() != PieceType.WROOK &&
+                                    board[i][y].getPiece().getType() != PieceType.WBISH0P &&
+                                    board[i][y].getPiece().getType() != PieceType.WKNIGHT &&
+                                    board[i][y].getPiece().getType() != PieceType.WQUEEN &&
+                                    board[i][y].getPiece().getType() != PieceType.WKING))
+                                flag = false;
+                        }
+                    }
+                }
+                break;
             case WROOK:
                 if (x == x0 || y == y0) {
                     flag = true;
                     if (x == x0 && y < y0) {
                         for (int i = y; i < y0; i++) {
-                            if (board[x][i].hasPiece())
-//                                if (!board[x][i+1].hasPiece() && (board[x][i].getPiece().getType() == PieceType.BPAWN ||
-//                                        board[x][y].getPiece().getType() == PieceType.BROOK ||
-//                                        board[x][y].getPiece().getType() == PieceType.BBISHOP ||
-//                                        board[x][y].getPiece().getType() == PieceType.BKNIGHT ||
-//                                        board[x][y].getPiece().getType() == PieceType.BQUEEN ||
-//                                        board[x][y].getPiece().getType() == PieceType.BKING))
-//                                    flag = false;
-//                                else
-//                                    flag = true;
+                            if (board[x][i].hasPiece() && (board[x][i].getPiece().getType() != PieceType.BPAWN &&
+                                        board[x][i].getPiece().getType() != PieceType.BROOK &&
+                                        board[x][i].getPiece().getType() != PieceType.BBISHOP &&
+                                        board[x][i].getPiece().getType() != PieceType.BKNIGHT &&
+                                        board[x][i].getPiece().getType() != PieceType.BQUEEN &&
+                                        board[x][i].getPiece().getType() != PieceType.BKING))
                                 flag = false;
                         }
                     }
-                    if (x == x0 && y > y0) {
+                    else if (x == x0 && y > y0) {
                         for (int i = y0 + 1; i <= y; i++) {
-                            if (board[x][i].hasPiece())
+                            if (board[x][i].hasPiece() && (board[x][i].getPiece().getType() != PieceType.BPAWN &&
+                                    board[x][i].getPiece().getType() != PieceType.BROOK &&
+                                    board[x][i].getPiece().getType() != PieceType.BBISHOP &&
+                                    board[x][i].getPiece().getType() != PieceType.BKNIGHT &&
+                                    board[x][i].getPiece().getType() != PieceType.BQUEEN &&
+                                    board[x][i].getPiece().getType() != PieceType.BKING))
                                 flag = false;
                         }
                     }
-                    if (y == y0 && x < x0) {
+                    else if (y == y0 && x < x0) {
                         for (int i = x; i < x0; i++) {
-                            if (board[i][y].hasPiece())
+                            if (board[i][y].hasPiece() && (board[i][y].getPiece().getType() != PieceType.BPAWN &&
+                                    board[i][y].getPiece().getType() != PieceType.BROOK &&
+                                    board[i][y].getPiece().getType() != PieceType.BBISHOP &&
+                                    board[i][y].getPiece().getType() != PieceType.BKNIGHT &&
+                                    board[i][y].getPiece().getType() != PieceType.BQUEEN &&
+                                    board[i][y].getPiece().getType() != PieceType.BKING))
                                 flag = false;
                         }
                     }
-                    if (y == y0 && x > x0) {
+                    else if (y == y0 && x > x0) {
                         for (int i = x0 + 1; i <= x; i++) {
-                            if (board[i][y].hasPiece())
+                            if (board[i][y].hasPiece() && (board[i][y].getPiece().getType() != PieceType.BPAWN &&
+                                    board[i][y].getPiece().getType() != PieceType.BROOK &&
+                                    board[i][y].getPiece().getType() != PieceType.BBISHOP &&
+                                    board[i][y].getPiece().getType() != PieceType.BKNIGHT &&
+                                    board[i][y].getPiece().getType() != PieceType.BQUEEN &&
+                                    board[i][y].getPiece().getType() != PieceType.BKING))
                                 flag = false;
                         }
                     }
