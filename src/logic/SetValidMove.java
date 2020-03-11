@@ -124,20 +124,61 @@ public class SetValidMove {
                     }
                     y++;
                 }
-//                x = x0;
-//                countOpponent = 0;
-//                // set valid moves for the left of rook.
-//                while (countOpponent < 2 && x >= 0) {
-//                    if (!board[x][y0].hasPiece()) {
-//                        board[x][y0].setHighlight(true);
-//
-//                        for (int m = x0 - 1; m > x; m--) {
-//                            if (board[m][y0].hasPiece())
-//                                board[x][y0].setHighlight(false);
-//                        }
-//                    }
-//                    x--;
-//                }
+                // set valid moves for the left of rook.
+                x = x0;
+                countOpponent = 0;
+
+                while (countOpponent < 2 && x >= 0) {
+                    if (!board[x][y0].hasPiece()) {
+                        board[x][y0].setHighlight(true);
+
+                        for (int m = x0 - 1; m > x; m--) {
+                            if (board[m][y0].hasPiece()) {
+                                board[x][y0].setHighlight(false);
+                                break;
+                            }
+                        }
+                    }
+                    if (board[x][y0].hasPiece() && checkHasOpponentOnPosition(PieceType.BROOK, x, y0, board)) {
+                        countOpponent++;
+                    }
+                    if (board[x][y0].hasPiece() && checkHasOpponentOnPosition(PieceType.BROOK, x, y0, board) && countOpponent < 2) {
+                        board[x][y0].setHighlight(true);
+                        for (int m = x0 -1; m > x; m--) {
+                            if (board[m][y0].hasPiece()) {
+                                board[x][y0].setHighlight(false);
+                                break;
+                            }
+                        }
+                    }
+                    x--;
+                }
+                // set valid moves for the right of rook.
+                x = x0;
+                countOpponent = 0;
+
+                while (countOpponent < 2 && x < 8) {
+                    if (!board[x][y0].hasPiece()) {
+                        board[x][y0].setHighlight(true);
+
+                        for (int m = x0 + 1; m < x; m++) {
+                            if (board[m][y0].hasPiece()) {
+                                board[x][y0].setHighlight(false);
+                                break;
+                            }
+                        }
+                    }
+                    if (board[x][y0].hasPiece() && checkHasOpponentOnPosition(PieceType.BROOK, x, y0, board)) {
+                        board[x][y0].setHighlight(true);
+                        for (int m = x0 + 1; m < x; m++) {
+                            if (board[m][y0].hasPiece()) {
+                                board[x][y0].setHighlight(false);
+                                break;
+                            }
+                        }
+                    }
+                    x++;
+                }
                 break;
             case WROOK:
 //                if (x == x0 || y == y0) {
