@@ -39,8 +39,14 @@ public class Logic {
         switch(type) {
             case BPAWN:
                 if (y0 == 1) {
-                    board[x0][y0 + 1].setHighlight(true);
-                    board[x0][y0 + 2].setHighlight(true);
+                    if (!board[x0][y0 + 1].hasPiece())
+                        board[x0][y0 + 1].setHighlight(true);
+                    if (!board[x0][y0 + 1].hasPiece() && !board[x0][y0 + 2].hasPiece())
+                        board[x0][y0 + 2].setHighlight(true);
+                    if (x0 - 1 >= 0 && checkHasOpponentOnPosition(PieceType.BPAWN, board[x0 - 1][y0 + 1]))
+                        board[x0 - 1][y0 + 1].setHighlight(true);
+                    if (x0 + 1 < 8 && checkHasOpponentOnPosition(PieceType.BPAWN, board[x0 + 1][y0 + 1]))
+                        board[x0 + 1][y0 + 1].setHighlight(true);
                 } else if (y0 < 7){
                     if (!board[x0][y0 + 1].hasPiece())
                         board[x0][y0 + 1].setHighlight(true);
