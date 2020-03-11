@@ -466,15 +466,43 @@ public class Logic {
                     y++;
                 }
                 // set valid moves for the bottom right of bishop.
-//                x = x0;
-//                y = y0;
-//                countOpponent = 0;
-//
-//                while () {
-//
-//                    x++;
-//                    y++;
-//                }
+                x = x0;
+                y = y0;
+                countOpponent = 0;
+
+                while (countOpponent < 2 && withinBorder(x, y)) {
+                    if (!board[x][y].hasPiece()) {
+                        board[x][y].setHighlight(true);
+                        m = x0 + 1;
+                        n = y0 + 1;
+                        while (m < x && n < y) {
+                            if (board[m][n].hasPiece()) {
+                                board[x][y].setHighlight(false);
+                                break;
+                            }
+                            m++;
+                            n++;
+                        }
+                    }
+                    if ( checkHasOpponentOnPosition(PieceType.BBISHOP, board[x][y])) {
+                        countOpponent++;
+                        if (countOpponent < 2) {
+                            board[x][y].setHighlight(true);
+                            m = x0 + 1;
+                            n = y0 + 1;
+                            while (m < x && n < y) {
+                                if (board[m][n].hasPiece()) {
+                                    board[x][y].setHighlight(false);
+                                    break;
+                                }
+                                m++;
+                                n++;
+                            }
+                        }
+                    }
+                    x++;
+                    y++;
+                }
                 break;
             case WBISHOP:
 //                if (((x == x0 - 1 && y == y0 - 1) || (x == x0 - 2 && y == y0 - 2) || (x == x0 - 3 && y == y0 - 3) || (x == x0 - 4 && y == y0 - 4) ||
