@@ -361,10 +361,7 @@ public class Logic {
                         n = y0 - 1;
                         while (withinBorder(x, y) && m > x && n > y) {
                             if (board[m][n].hasPiece()) {
-//                                    System.out.println("board["+(x0-m)+"]["+(y0-m)+"]: "+board[x0-m][y0-m].getPiece().getType());
                                 board[x][y].setHighlight(false);
-//                                    System.out.println("board["+(x0-x)+"]["+(y0-y)+"].setHighlight(false)");
-//                                    System.out.println("------------------------------------");
                                 break;
                             }
                             m--;
@@ -380,11 +377,7 @@ public class Logic {
                             n = y0 - 1;
                             while (withinBorder(x, y) && m > x && n > y) {
                                 if (board[m][n].hasPiece()) {
-                                    System.out.println("board["+(x0-m)+"]["+(y0-m)+"]: "+board[x0-m][y0-m].getPiece().getType());
                                     board[x][y].setHighlight(false);
-                                    System.out.println("board["+(x0-x)+"]["+(y0-y)+"].setHighlight(false)");
-                                    System.out.println("board["+(x0-x)+"]["+(y0-y)+"].getHighlight() = "+board[x0 - x][y0 - y].getHighlight());
-                                    System.out.println("------------------------------------");
                                     break;
                                 }
                                 m--;

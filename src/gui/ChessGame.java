@@ -199,8 +199,6 @@ public class ChessGame extends Application {
                 for (tempY = 0; tempY < 8; tempY++) {
                     if (board[tempX][tempY].getHighlight()) {
                         highlightTile(tempX, tempY);
-                        System.out.println("board["+tempX+"]["+tempY+"].getHighlight() = "+board[tempX][tempY].getHighlight());
-                        System.out.println("---");
                     }
                 }
             }
