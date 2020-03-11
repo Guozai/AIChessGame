@@ -351,34 +351,24 @@ public class Logic {
                 x = x0;
                 y = y0;
                 countOpponent = 0;
+                int m, n;
 
                 while (countOpponent < 2 && withinBorder(x, y)) {
                     if (!board[x][y].hasPiece()) {
                         board[x][y].setHighlight(true);
                         // Do not highlight tiles that have no piece and there is a piece between the bishop and this tile
-                        // if x0 <= y0, use x0
-                        if (x0 <= y0) {
-                            for (int m = 1; m < x; m++) {
-                                if (withinBorder(x0 - m, y0 - m) && board[x0 - m][y0 - m].hasPiece()) {
+                        m = x0 - 1;
+                        n = y0 - 1;
+                        while (withinBorder(x, y) && m > x && n > y) {
+                            if (board[m][n].hasPiece()) {
 //                                    System.out.println("board["+(x0-m)+"]["+(y0-m)+"]: "+board[x0-m][y0-m].getPiece().getType());
-                                    board[x0 - x][y0 - y].setHighlight(false);
+                                board[x][y].setHighlight(false);
 //                                    System.out.println("board["+(x0-x)+"]["+(y0-y)+"].setHighlight(false)");
 //                                    System.out.println("------------------------------------");
-                                    break;
-                                }
+                                break;
                             }
-                        }
-                        // else use y0
-                        else {
-                            for (int m = 1; m < y; m++) {
-                                if (withinBorder(x0 - m, y0 - m) && board[x0 - m][y0 - m].hasPiece()) {
-//                                    System.out.println("board["+(x0-m)+"]["+(y0-m)+"]: "+board[x0-m][y0-m].getPiece().getType());
-                                    board[x0 - x][y0 - y].setHighlight(false);
-//                                    System.out.println("board["+(x0-x)+"]["+(y0-y)+"].setHighlight(false)");
-//                                    System.out.println("------------------------------------");
-                                    break;
-                                }
-                            }
+                            m--;
+                            n--;
                         }
                     }
                     // Highlight tiles that have the first white piece on the route of bishop.
@@ -386,28 +376,19 @@ public class Logic {
                         countOpponent++;
                         if (countOpponent < 2) {
                             board[x][y].setHighlight(true);
-                            if (x0 <= y0) {
-                                for (int m = 1; m < x; m++) {
-                                    if (withinBorder(x0 - m, y0 - m) && board[x0 - m][y0 - m].hasPiece()) {
-                                        System.out.println("board["+(x0-m)+"]["+(y0-m)+"]: "+board[x0-m][y0-m].getPiece().getType());
-                                        board[x0 - x][y0 - y].setHighlight(false);
-                                        System.out.println("board["+(x0-x)+"]["+(y0-y)+"].setHighlight(false)");
-                                        System.out.println("board["+(x0-x)+"]["+(y0-y)+"].getHighlight() = "+board[x0 - x][y0 - y].getHighlight());
-                                        System.out.println("------------------------------------");
-                                        break;
-                                    }
+                            m = x0 - 1;
+                            n = y0 - 1;
+                            while (withinBorder(x, y) && m > x && n > y) {
+                                if (board[m][n].hasPiece()) {
+                                    System.out.println("board["+(x0-m)+"]["+(y0-m)+"]: "+board[x0-m][y0-m].getPiece().getType());
+                                    board[x][y].setHighlight(false);
+                                    System.out.println("board["+(x0-x)+"]["+(y0-y)+"].setHighlight(false)");
+                                    System.out.println("board["+(x0-x)+"]["+(y0-y)+"].getHighlight() = "+board[x0 - x][y0 - y].getHighlight());
+                                    System.out.println("------------------------------------");
+                                    break;
                                 }
-                            }
-                            else {
-                                for (int m = 1; m < y; m++) {
-                                    if (withinBorder(x0 - m, y0 - m) && board[x0 - m][y0 - m].hasPiece()) {
-//                                        System.out.println("board["+(x0-m)+"]["+(y0-m)+"]: "+board[x0-m][y0-m].getPiece().getType());
-                                        board[x0 - x][y0 - y].setHighlight(false);
-//                                        System.out.println("board["+(x0-x)+"]["+(y0-y)+"].setHighlight(false)");
-//                                        System.out.println("------------------------------------");
-                                        break;
-                                    }
-                                }
+                                m--;
+                                n--;
                             }
                         }
                     }
