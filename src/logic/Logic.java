@@ -389,69 +389,83 @@ public class Logic {
                     x--;
                     y--;
                 }
-//                // set valid moves for the top right of bishop.
-//                x = x0;
-//                y = y0;
-//                countOpponent = 0;
-//
-//                while (countOpponent < 2 && withinBorder(x, y)) {
-//                    if (!board[x][y].hasPiece()) {
-//                        board[x][y].setHighlight(true);
-//                        m = x0 + 1;
-//                        n = y0 - 1;
-//
-//                            for (int m = y0 - 1; m > y; m--) {
-//                                if (withinBorder(x0 + m, y0 - m) && board[x0 + m][y0 - m].hasPiece()) {
-//                                    board[x][y].setHighlight(false);
-//                                    break;
-//                                }
-//                            }
-//                        }
-//                        else {
-//                            for (int m = x0 + 1; m < x; m++) {
-//                                if (withinBorder(x0 + m, y0 - m) && board[x0 + m][y0 - m].hasPiece()) {
-//                                    board[x][y].setHighlight(false);
-//                                    break;
-//                                }
-//                            }
-//                        }
-//                    }
-//                    if (checkHasOpponentOnPosition(PieceType.BBISHOP, board[x][y])) {
-//                        countOpponent++;
-//                        if (countOpponent < 2) {
-//                            board[x][y].setHighlight(true);
-//                            if (x0 <= y0) {
-//                                for (int m = y0 - 1; m > y; m--) {
-//                                    if (withinBorder(x0 + m, y0 - m) && board[x0 + m][y0 - m].hasPiece()) {
-//                                        board[x][y].setHighlight(false);
-//                                        break;
-//                                    }
-//                                }
-//                            }
-//                            else {
-//                                for (int m = x0 + 1; m < x; m++) {
-//                                    if (withinBorder(x0 + m, y0 - m) && board[x0 + m][y0 - m].hasPiece()) {
-//                                        board[x][y].setHighlight(false);
-//                                        break;
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    }
-//                    x++;
-//                    y--;
-//                }
-//                // set valid moves for the bottom left of bishop.
-//                x = x0;
-//                y = y0;
-//                countOpponent = 0;
-//
-//                while () {
-//
-//                    x--;
-//                    y++;
-//                }
-//                // set valid moves for the bottom right of bishop.
+                // set valid moves for the top right of bishop.
+                x = x0;
+                y = y0;
+                countOpponent = 0;
+
+                while (countOpponent < 2 && withinBorder(x, y)) {
+                    if (!board[x][y].hasPiece()) {
+                        board[x][y].setHighlight(true);
+                        m = x0 + 1;
+                        n = y0 - 1;
+                        while (m < x && n > y) {
+                            if (board[m][n].hasPiece()) {
+                                board[x][y].setHighlight(false);
+                                break;
+                            }
+                            m++;
+                            n--;
+                        }
+                    }
+                    if (checkHasOpponentOnPosition(PieceType.BBISHOP, board[x][y])) {
+                        countOpponent++;
+                        if (countOpponent < 2) {
+                            board[x][y].setHighlight(true);
+                            m = x0 + 1;
+                            n = y0 - 1;
+                            while (m < x && n > y) {
+                                if (board[m][n].hasPiece()) {
+                                    board[x][y].setHighlight(false);
+                                    break;
+                                }
+                                m++;
+                                n--;
+                            }
+                        }
+                    }
+                    x++;
+                    y--;
+                }
+                // set valid moves for the bottom left of bishop.
+                x = x0;
+                y = y0;
+                countOpponent = 0;
+
+                while (countOpponent < 2 && withinBorder(x, y)) {
+                    if (!board[x][y].hasPiece()) {
+                        board[x][y].setHighlight(true);
+                        m = x0 - 1;
+                        n = y0 + 1;
+                        while (m > x && n < y) {
+                            if (board[m][n].hasPiece()) {
+                                board[x][y].setHighlight(false);
+                                break;
+                            }
+                            m--;
+                            n++;
+                        }
+                    }
+                    if (checkHasOpponentOnPosition(PieceType.BBISHOP, board[x][y])) {
+                        countOpponent++;
+                        if (countOpponent < 2) {
+                            board[x][y].setHighlight(true);
+                            m = x0 - 1;
+                            n = y0 + 1;
+                            while (m > x && n < y) {
+                                if (board[m][n].hasPiece()) {
+                                    board[x][y].setHighlight(false);
+                                    break;
+                                }
+                                m--;
+                                n++;
+                            }
+                        }
+                    }
+                    x--;
+                    y++;
+                }
+                // set valid moves for the bottom right of bishop.
 //                x = x0;
 //                y = y0;
 //                countOpponent = 0;
