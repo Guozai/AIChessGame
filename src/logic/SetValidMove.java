@@ -82,7 +82,7 @@ public class SetValidMove {
                         }
                     }
                     // Highlight tiles that have the first white piece on the route of rook.
-                    if (board[x0][y].hasPiece() && checkHasOpponentOnPosition(PieceType.BROOK, board[x0][y])) {
+                    if (checkHasOpponentOnPosition(PieceType.BROOK, board[x0][y])) {
                         // Increase the number of white piece count on the route of rook.
                         countOpponent++;
                         if (countOpponent < 2) {
@@ -113,7 +113,7 @@ public class SetValidMove {
                             }
                         }
                     }
-                    if (board[x0][y].hasPiece() && checkHasOpponentOnPosition(PieceType.BROOK, board[x0][y])) {
+                    if (checkHasOpponentOnPosition(PieceType.BROOK, board[x0][y])) {
                         countOpponent++;
                         if (countOpponent < 2) {
                             board[x0][y].setHighlight(true);
@@ -144,7 +144,7 @@ public class SetValidMove {
                             }
                         }
                     }
-                    if (board[x][y0].hasPiece() && checkHasOpponentOnPosition(PieceType.BROOK, board[x][y0])) {
+                    if (checkHasOpponentOnPosition(PieceType.BROOK, board[x][y0])) {
                         countOpponent++;
                         if (countOpponent < 2) {
                             board[x][y0].setHighlight(true);
@@ -173,7 +173,7 @@ public class SetValidMove {
                             }
                         }
                     }
-                    if (board[x][y0].hasPiece() && checkHasOpponentOnPosition(PieceType.BROOK, board[x][y0])) {
+                    if (checkHasOpponentOnPosition(PieceType.BROOK, board[x][y0])) {
                         countOpponent++;
                         if (countOpponent < 2) {
                             board[x][y0].setHighlight(true);
@@ -208,7 +208,7 @@ public class SetValidMove {
                         }
                     }
                     // Highlight tiles that have the first black piece on the route of rook.
-                    if (board[x0][y].hasPiece() && checkHasOpponentOnPosition(PieceType.WROOK, board[x0][y])) {
+                    if (checkHasOpponentOnPosition(PieceType.WROOK, board[x0][y])) {
                         // Increase the number of black piece count on the route of rook.
                         countOpponent++;
                         if (countOpponent < 2) {
@@ -239,7 +239,7 @@ public class SetValidMove {
                             }
                         }
                     }
-                    if (board[x0][y].hasPiece() && checkHasOpponentOnPosition(PieceType.WROOK, board[x0][y])) {
+                    if (checkHasOpponentOnPosition(PieceType.WROOK, board[x0][y])) {
                         countOpponent++;
                         if (countOpponent < 2) {
                             board[x0][y].setHighlight(true);
@@ -270,7 +270,7 @@ public class SetValidMove {
                             }
                         }
                     }
-                    if (board[x][y0].hasPiece() && checkHasOpponentOnPosition(PieceType.WROOK, board[x][y0])) {
+                    if (checkHasOpponentOnPosition(PieceType.WROOK, board[x][y0])) {
                         countOpponent++;
                         if (countOpponent < 2) {
                             board[x][y0].setHighlight(true);
@@ -299,7 +299,7 @@ public class SetValidMove {
                             }
                         }
                     }
-                    if (board[x][y0].hasPiece() && checkHasOpponentOnPosition(PieceType.WROOK, board[x][y0])) {
+                    if (checkHasOpponentOnPosition(PieceType.WROOK, board[x][y0])) {
                         countOpponent++;
                         if (countOpponent < 2) {
                             board[x][y0].setHighlight(true);
