@@ -17,7 +17,7 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import logic.CheckMoveValidation;
+import logic.SetValidMove;
 
 /**
  * Created by yipin on 15/07/2017.
@@ -119,10 +119,10 @@ public class ChessGame extends Application {
 
         Piece wRook1 = makePiece(PieceType.WROOK, 0, 7);
         Piece wKnight1 = makePiece(PieceType.WKNIGHT, 1, 7);
-        Piece wBishop1 = makePiece(PieceType.WBISH0P, 2, 7);
+        Piece wBishop1 = makePiece(PieceType.WBISHOP, 2, 7);
         Piece wQueen = makePiece(PieceType.WQUEEN, 3, 7);
         Piece wKing = makePiece(PieceType.WKING, 4, 7);
-        Piece wBishop2 = makePiece(PieceType.WBISH0P, 5, 7);
+        Piece wBishop2 = makePiece(PieceType.WBISHOP, 5, 7);
         Piece wKnight2 = makePiece(PieceType.WKNIGHT, 6, 7);
         Piece wRook2 = makePiece(PieceType.WROOK, 7, 7);
 
@@ -189,12 +189,12 @@ public class ChessGame extends Application {
 
             int tempX, tempY;
 
-            CheckMoveValidation moveValidation = new CheckMoveValidation();
+            SetValidMove setValidMove = new SetValidMove();
+            setValidMove.setValidMove(type, x0, y0, board);
             for (tempX = 0; tempX < 8; tempX++) {
                 for (tempY = 0; tempY < 8; tempY++) {
-                    if (moveValidation.checkValidMove(piece.getType(), tempX, tempY, x0, y0, board)) {
+                    if (board[tempX][tempY].getHighlight()) {
                         highlightTile(tempX, tempY);
-                        board[tempX][tempY].setHighlight(true);
                     }
                 }
             }
@@ -214,6 +214,7 @@ public class ChessGame extends Application {
                 for (tempY = 0; tempY < 8; tempY++) {
                     if (board[tempX][tempY].getHighlight()) {
                         stopHighlightTile(tempX, tempY);
+                        board[tempX][tempY].setHighlight(false);
                     }
                 }
             }

@@ -67,7 +67,7 @@ public class Piece extends StackPane {
             piece.setImage(imgWPawn);
         } else if (type == PieceType.WROOK) {
             piece.setImage(imgWRook);
-        } else if (type == PieceType.WBISH0P) {
+        } else if (type == PieceType.WBISHOP) {
             piece.setImage(imgWBishop);
         } else if (type == PieceType.WKNIGHT) {
             piece.setImage(imgWKnightL);
