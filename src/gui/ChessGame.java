@@ -17,7 +17,7 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import logic.SetValidMove;
+import logic.Logic;
 
 /**
  * Created by yipin on 15/07/2017.
@@ -29,10 +29,12 @@ public class ChessGame extends Application {
     public static final int WIDTH = 8; // The board has 8 columns
     public static final int HEIGHT = 8; // and 8 rows.
 
-    private final Tile[][] board = new Tile[WIDTH][HEIGHT];
+    private Tile[][] board = new Tile[WIDTH][HEIGHT];
 
     private final Group tileGroup = new Group();
     private final Group pieceGroup = new Group();
+
+    private Logic logic = new Logic();
 
     private Parent createContent() {
         BorderPane chess = new BorderPane();
@@ -156,6 +158,8 @@ public class ChessGame extends Application {
         pieceGroup.getChildren().addAll(wPawn1, wPawn2, wPawn3, wPawn4, wPawn5, wPawn6, wPawn7, wPawn8);
         pieceGroup.getChildren().addAll(wRook1, wKnight1, wBishop1, wQueen, wKing, wBishop2, wKnight2, wRook2);
 
+        logic.setBoard(board);
+
         chess.setTop(top);
         chess.setBottom(bottom);
         chess.setCenter(center);
@@ -189,12 +193,14 @@ public class ChessGame extends Application {
 
             int tempX, tempY;
 
-            SetValidMove setValidMove = new SetValidMove();
-            setValidMove.setValidMove(type, x0, y0, board);
+            logic.setValidMove(type, x0, y0);
+            board = logic.getBoard();
             for (tempX = 0; tempX < 8; tempX++) {
                 for (tempY = 0; tempY < 8; tempY++) {
                     if (board[tempX][tempY].getHighlight()) {
                         highlightTile(tempX, tempY);
+                        System.out.println("board["+tempX+"]["+tempY+"].getHighlight() = "+board[tempX][tempY].getHighlight());
+                        System.out.println("---");
                     }
                 }
             }
@@ -214,7 +220,6 @@ public class ChessGame extends Application {
                 for (tempY = 0; tempY < 8; tempY++) {
                     if (board[tempX][tempY].getHighlight()) {
                         stopHighlightTile(tempX, tempY);
-                        board[tempX][tempY].setHighlight(false);
                     }
                 }
             }
@@ -231,6 +236,8 @@ public class ChessGame extends Application {
                 piece.move(newX, newY);
                 board[x0][y0].setPiece(null);
                 board[newX][newY].setPiece(piece);
+                // Update logic board
+                logic.setBoard(board);
                 /* Save the new position of x, y */
                 x0 = newX;
                 y0 = newY;
@@ -261,7 +268,5 @@ public class ChessGame extends Application {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        launch(args);
-    }
+    public static void main(String[] args) { launch(args); }
 }

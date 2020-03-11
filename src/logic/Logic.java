@@ -1,23 +1,16 @@
 package logic;
 
-import gui.Piece;
 import gui.PieceType;
 import gui.Tile;
 
 /**
  * Created by yipin on 15/07/2017.
  */
-public class SetValidMove {
+public class Logic {
 
-//    public boolean checkValidMove(PieceType type, int x, int y, int x0, int y0, Tile[][] board) {
-//        if (checkPieceDefaultValid(type, x, y, x0, y0, board) && checkIfWithinBorder(x, y)) {
-//            return true;
-//        } else {
-//            return false;
-//        }
-//    }
+    private Tile[][] board;
 
-    public void setValidMove(PieceType type, int x0, int y0, Tile[][] board) {
+    public void setValidMove(PieceType type, int x0, int y0) {
 
         // The chessboard is displayed as following
         //   0 1 2 3 4 5 6 7
@@ -31,9 +24,9 @@ public class SetValidMove {
         // 7| | | | | | | | |
 
         // initialize board
-        for (int m = 0; m < 7; m++) {
-            for (int n = 0; n < 7; n++) {
-                board[m][n].setHighlight(false);
+        for (int m = 0; m < 8; m++) {
+            for (int n = 0; n < 8; n++) {
+                this.board[m][n].setHighlight(false);
             }
         }
 
@@ -365,24 +358,24 @@ public class SetValidMove {
                         // Do not highlight tiles that have no piece and there is a piece between the bishop and this tile
                         // if x0 <= y0, use x0
                         if (x0 <= y0) {
-                            for (int m = 1; m < x0 - 1; m++) {
+                            for (int m = 1; m < x; m++) {
                                 if (withinBorder(x0 - m, y0 - m) && board[x0 - m][y0 - m].hasPiece()) {
-                                    System.out.println("board["+(x0-m)+"]["+(y0-m)+"]: "+board[x0-m][y0-m].getPiece().getType());
-                                    board[x][y].setHighlight(false);
-                                    System.out.println("board["+x+"]["+y+"].setHighlight(false)");
-                                    System.out.println("------------------------------------");
+//                                    System.out.println("board["+(x0-m)+"]["+(y0-m)+"]: "+board[x0-m][y0-m].getPiece().getType());
+                                    board[x0 - x][y0 - y].setHighlight(false);
+//                                    System.out.println("board["+(x0-x)+"]["+(y0-y)+"].setHighlight(false)");
+//                                    System.out.println("------------------------------------");
                                     break;
                                 }
                             }
                         }
                         // else use y0
                         else {
-                            for (int m = 1; m < y0 - 1; m++) {
+                            for (int m = 1; m < y; m++) {
                                 if (withinBorder(x0 - m, y0 - m) && board[x0 - m][y0 - m].hasPiece()) {
-                                    System.out.println("board["+(x0-m)+"]["+(y0-m)+"]: "+board[x0-m][y0-m].getPiece().getType());
-                                    board[x][y].setHighlight(false);
-                                    System.out.println("board["+x+"]["+y+"].setHighlight(false)");
-                                    System.out.println("------------------------------------");
+//                                    System.out.println("board["+(x0-m)+"]["+(y0-m)+"]: "+board[x0-m][y0-m].getPiece().getType());
+                                    board[x0 - x][y0 - y].setHighlight(false);
+//                                    System.out.println("board["+(x0-x)+"]["+(y0-y)+"].setHighlight(false)");
+//                                    System.out.println("------------------------------------");
                                     break;
                                 }
                             }
@@ -394,23 +387,24 @@ public class SetValidMove {
                         if (countOpponent < 2) {
                             board[x][y].setHighlight(true);
                             if (x0 <= y0) {
-                                for (int m = 1; m < x0 - 1; m++) {
+                                for (int m = 1; m < x; m++) {
                                     if (withinBorder(x0 - m, y0 - m) && board[x0 - m][y0 - m].hasPiece()) {
                                         System.out.println("board["+(x0-m)+"]["+(y0-m)+"]: "+board[x0-m][y0-m].getPiece().getType());
-                                        board[x][y].setHighlight(false);
-                                        System.out.println("board["+x+"]["+y+"].setHighlight(false)");
+                                        board[x0 - x][y0 - y].setHighlight(false);
+                                        System.out.println("board["+(x0-x)+"]["+(y0-y)+"].setHighlight(false)");
+                                        System.out.println("board["+(x0-x)+"]["+(y0-y)+"].getHighlight() = "+board[x0 - x][y0 - y].getHighlight());
                                         System.out.println("------------------------------------");
                                         break;
                                     }
                                 }
                             }
                             else {
-                                for (int m = 1; m < y0 - 1; m++) {
+                                for (int m = 1; m < y; m++) {
                                     if (withinBorder(x0 - m, y0 - m) && board[x0 - m][y0 - m].hasPiece()) {
-                                        System.out.println("board["+(x0-m)+"]["+(y0-m)+"]: "+board[x0-m][y0-m].getPiece().getType());
-                                        board[x][y].setHighlight(false);
-                                        System.out.println("board["+x+"]["+y+"].setHighlight(false)");
-                                        System.out.println("------------------------------------");
+//                                        System.out.println("board["+(x0-m)+"]["+(y0-m)+"]: "+board[x0-m][y0-m].getPiece().getType());
+                                        board[x0 - x][y0 - y].setHighlight(false);
+//                                        System.out.println("board["+(x0-x)+"]["+(y0-y)+"].setHighlight(false)");
+//                                        System.out.println("------------------------------------");
                                         break;
                                     }
                                 }
@@ -660,4 +654,8 @@ public class SetValidMove {
                 return false;
         }
     }
+
+    public Tile[][] getBoard() { return board; }
+
+    public void setBoard(Tile[][] board) { this.board = board; }
 }
