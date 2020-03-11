@@ -321,6 +321,23 @@ public class SetValidMove {
                 }
                 break;
             case BKNIGHT:
+                if (withinBorder(x0 - 2, y0 - 1) && !checkHasSameSideOnPosition(PieceType.BKNIGHT, board[x0 - 2][y0 - 1]))
+                    board[x0 - 2][y0 - 1].setHighlight(true);
+                if (withinBorder(x0 - 2, y0 + 1) && !checkHasSameSideOnPosition(PieceType.BKNIGHT, board[x0 - 2][y0 + 1]))
+                    board[x0 - 2][y0 + 1].setHighlight(true);
+                if (withinBorder(x0 - 1, y0 - 2) && !checkHasSameSideOnPosition(PieceType.BKNIGHT, board[x0 - 1][y0 - 2]))
+                    board[x0 - 1][y0 - 2].setHighlight(true);
+                if (withinBorder(x0 - 1, y0 + 2) && !checkHasSameSideOnPosition(PieceType.BKNIGHT, board[x0 - 1][y0 + 2]))
+                    board[x0 - 1][y0 + 2].setHighlight(true);
+                if (withinBorder(x0 + 2, y0 - 1) && !checkHasSameSideOnPosition(PieceType.BKNIGHT, board[x0 + 2][y0 - 1]))
+                    board[x0 + 2][y0 - 1].setHighlight(true);
+                if (withinBorder(x0 + 2, y0 + 1) && !checkHasSameSideOnPosition(PieceType.BKNIGHT, board[x0 + 2][y0 + 1]))
+                    board[x0 + 2][y0 + 1].setHighlight(true);
+                if (withinBorder(x0 + 1, y0 - 2) && !checkHasSameSideOnPosition(PieceType.BKNIGHT, board[x0 + 1][y0 - 2]))
+                    board[x0 + 1][y0 - 2].setHighlight(true);
+                if (withinBorder(x0 + 1, y0 + 2) && !checkHasSameSideOnPosition(PieceType.BKNIGHT, board[x0 + 1][y0 + 2]))
+                    board[x0 + 1][y0 + 2].setHighlight(true);
+                break;
             case WKNIGHT:
 //                if (((x == x0 - 2 && (y == y0 - 1 || y == y0 + 1)) || (x == x0 - 1 && (y == y0 - 2 || y == y0 + 2)) ||
 //                        (x == x0 + 2 && (y == y0 - 1 || y == y0 + 1)) || (x == x0 + 1 && (y == y0 - 2 || y == y0 + 2)))
@@ -375,13 +392,13 @@ public class SetValidMove {
         }
     }
 
-//    boolean checkIfWithinBorder(int x, int y) {
-//        if (x >= 0 && x <= 7 && y >= 0 && y <= 7) {
-//            return true;
-//        } else {
-//            return false;
-//        }
-//    }
+    boolean withinBorder(int x, int y) {
+        if (x >= 0 && x <= 7 && y >= 0 && y <= 7) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     boolean checkHasSameSideOnPosition(PieceType type, Tile tile) {
         // check if there is a piece on the position
