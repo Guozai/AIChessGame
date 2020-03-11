@@ -50,7 +50,7 @@ public class SetValidMove {
                     // When a white piece is on the front left or front right of a black pawn, it is a valid move.
                     if (x0 - 1 >= 0 && checkHasOpponentOnPosition(PieceType.BPAWN, board[x0 - 1][y0 + 1]))
                         board[x0 - 1][y0 + 1].setHighlight(true);
-                    else if (x0 + 1 < 8 && checkHasOpponentOnPosition(PieceType.BPAWN, board[x0 + 1][y0 + 1]))
+                    if (x0 + 1 < 8 && checkHasOpponentOnPosition(PieceType.BPAWN, board[x0 + 1][y0 + 1]))
                         board[x0 + 1][y0 + 1].setHighlight(true);
                 }
                 break;
@@ -59,7 +59,13 @@ public class SetValidMove {
                     board[x0][y0 - 1].setHighlight(true);
                     board[x0][y0 - 2].setHighlight(true);
                 } else if (y0 > 0){
-                    board[x0][y0 - 1].setHighlight(true);
+                    if (!board[x0][y0 - 1].hasPiece())
+                        board[x0][y0 - 1].setHighlight(true);
+                    // When a black piece is on the front left or front right of a white pawn, it is a valid move.
+                    if (x0 - 1 >= 0 && checkHasOpponentOnPosition(PieceType.WPAWN, board[x0 - 1][y0 - 1]))
+                        board[x0 - 1][y0 - 1].setHighlight(true);
+                    if (x0 + 1 < 8 && checkHasOpponentOnPosition(PieceType.WPAWN, board[x0 + 1][y0 - 1]))
+                        board[x0 + 1][y0 - 1].setHighlight(true);
                 }
                 break;
             case BROOK:
