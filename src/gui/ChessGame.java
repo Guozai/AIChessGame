@@ -234,6 +234,9 @@ public class ChessGame extends Application {
                 piece.move(newX, newY);
                 board[x0][y0].setPiece(null);
                 board[newX][newY].setPiece(piece);
+                // Update piece property hasMoved.
+                if (newX != x0 || newY != y0)
+                    piece.setHasMoved(true);
                 // Update logic board
                 logic.setBoard(board);
                 /* Save the new position of x, y */

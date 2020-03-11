@@ -12,6 +12,7 @@ import javafx.scene.image.Image;
 public class Piece extends StackPane {
     private PieceType type;
     private double oldX, oldY;
+    private boolean hasMoved;
 
     public PieceType getType() {
         return type;
@@ -25,8 +26,13 @@ public class Piece extends StackPane {
         return oldY;
     }
 
+    public boolean getHasMoved() { return hasMoved; }
+
+    public void setHasMoved(boolean hasMoved) { this.hasMoved = hasMoved; }
+
     public Piece(PieceType type, int x, int y) {
         this.type = type;
+        this.hasMoved = false;
 
         move(x, y);
 

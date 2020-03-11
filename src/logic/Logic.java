@@ -1246,6 +1246,15 @@ public class Logic {
                     board[x0 + 1][y0].setHighlight(true);
                 if (withinBorder(x0 + 1, y0 + 1) && !checkHasSameSideOnPosition(PieceType.BKING, board[x0 + 1][y0 + 1]))
                     board[x0 + 1][y0 + 1].setHighlight(true);
+                // Castling
+                if (x0 == 4 & y0 == 0 && board[x0][y0].hasPiece() && board[x0][y0].getPiece().getType() == PieceType.BKING && !board[x0][y0].getPiece().getHasMoved()
+                        && board[x0 + 3][y0].hasPiece() && board[x0 + 3][y0].getPiece().getType() == PieceType.BROOK && !board[x0 + 3][y0].getPiece().getHasMoved()
+                        && !board[x0 + 1][y0].hasPiece() && !board[x0 + 2][y0].hasPiece())
+                    board[x0 + 2][y0].setHighlight(true);
+                if (x0 == 4 & y0 == 0 && board[x0][y0].hasPiece() && board[x0][y0].getPiece().getType() == PieceType.BKING && !board[x0][y0].getPiece().getHasMoved()
+                        && board[x0 - 4][y0].hasPiece() && board[x0 - 4][y0].getPiece().getType() == PieceType.BROOK && !board[x0 - 4][y0].getPiece().getHasMoved()
+                        && !board[x0 - 1][y0].hasPiece() && !board[x0 - 2][y0].hasPiece() && !board[x0 - 3][y0].hasPiece())
+                    board[x0 - 2][y0].setHighlight(true);
                 break;
             case WKING:
                 if (withinBorder(x0 - 1, y0 - 1) && !checkHasSameSideOnPosition(PieceType.WKING, board[x0 - 1][y0 - 1]))
@@ -1264,6 +1273,8 @@ public class Logic {
                     board[x0 + 1][y0].setHighlight(true);
                 if (withinBorder(x0 + 1, y0 + 1) && !checkHasSameSideOnPosition(PieceType.WKING, board[x0 + 1][y0 + 1]))
                     board[x0 + 1][y0 + 1].setHighlight(true);
+                // Castling
+
                 break;
             default:
                 board[x0][y0].setHighlight(true);
