@@ -75,20 +75,19 @@ public class SetValidMove {
                             }
                         }
                     }
-                    // Increase the number of white piece count on the route of rook.
-                    if (board[x0][y].hasPiece() && checkHasOpponentOnPosition(PieceType.BROOK, board[x0][y])) {
-                        countOpponent++;
-                    }
                     // Highlight tiles that have the first white piece on the route of rook.
-                    if (board[x0][y].hasPiece() && checkHasOpponentOnPosition(PieceType.BROOK, board[x0][y]) && countOpponent < 2) {
-                        board[x0][y].setHighlight(true);
-                        // Check if there is no piece between this piece and the rook.
-                        for (int n = y0 - 1; n > y; n--) {
-                            if (board[x0][n].hasPiece()) {
-                                board[x0][y].setHighlight(false);
-                                break;
+                    if (board[x0][y].hasPiece() && checkHasOpponentOnPosition(PieceType.BROOK, board[x0][y])) {
+                        // Increase the number of white piece count on the route of rook.
+                        countOpponent++;
+                        if (countOpponent < 2) {
+                            board[x0][y].setHighlight(true);
+                            // Check if there is no piece between this piece and the rook.
+                            for (int n = y0 - 1; n > y; n--) {
+                                if (board[x0][n].hasPiece()) {
+                                    board[x0][y].setHighlight(false);
+                                    break;
+                                }
                             }
-
                         }
                     }
                     y--;
@@ -110,16 +109,16 @@ public class SetValidMove {
                     }
                     if (board[x0][y].hasPiece() && checkHasOpponentOnPosition(PieceType.BROOK, board[x0][y])) {
                         countOpponent++;
-                    }
-                    if (board[x0][y].hasPiece() && checkHasOpponentOnPosition(PieceType.BROOK, board[x0][y]) && countOpponent < 2) {
-                        board[x0][y].setHighlight(true);
-                        // Check if there is no piece between this piece and the rook.
-                        for (int n = y0 + 1; n < y; n++) {
-                            if (board[x0][n].hasPiece()) {
-                                board[x0][y].setHighlight(false);
-                                break;
-                            }
+                        if (countOpponent < 2) {
+                            board[x0][y].setHighlight(true);
+                            // Check if there is no piece between this piece and the rook.
+                            for (int n = y0 + 1; n < y; n++) {
+                                if (board[x0][n].hasPiece()) {
+                                    board[x0][y].setHighlight(false);
+                                    break;
+                                }
 
+                            }
                         }
                     }
                     y++;
@@ -141,13 +140,13 @@ public class SetValidMove {
                     }
                     if (board[x][y0].hasPiece() && checkHasOpponentOnPosition(PieceType.BROOK, board[x][y0])) {
                         countOpponent++;
-                    }
-                    if (board[x][y0].hasPiece() && checkHasOpponentOnPosition(PieceType.BROOK, board[x][y0]) && countOpponent < 2) {
-                        board[x][y0].setHighlight(true);
-                        for (int m = x0 -1; m > x; m--) {
-                            if (board[m][y0].hasPiece()) {
-                                board[x][y0].setHighlight(false);
-                                break;
+                        if (countOpponent < 2) {
+                            board[x][y0].setHighlight(true);
+                            for (int m = x0 -1; m > x; m--) {
+                                if (board[m][y0].hasPiece()) {
+                                    board[x][y0].setHighlight(false);
+                                    break;
+                                }
                             }
                         }
                     }
@@ -170,13 +169,13 @@ public class SetValidMove {
                     }
                     if (board[x][y0].hasPiece() && checkHasOpponentOnPosition(PieceType.BROOK, board[x][y0])) {
                         countOpponent++;
-                    }
-                    if (board[x][y0].hasPiece() && checkHasOpponentOnPosition(PieceType.BROOK, board[x][y0])) {
-                        board[x][y0].setHighlight(true);
-                        for (int m = x0 + 1; m < x; m++) {
-                            if (board[m][y0].hasPiece()) {
-                                board[x][y0].setHighlight(false);
-                                break;
+                        if (countOpponent < 2) {
+                            board[x][y0].setHighlight(true);
+                            for (int m = x0 + 1; m < x; m++) {
+                                if (board[m][y0].hasPiece()) {
+                                    board[x][y0].setHighlight(false);
+                                    break;
+                                }
                             }
                         }
                     }
