@@ -183,81 +183,130 @@ public class SetValidMove {
                 }
                 break;
             case WROOK:
-//                if (x == x0 || y == y0) {
-//                    flag = true;
-//                    if (x == x0 && y < y0) {
-//                        for (int i = y; i < y0; i++) {
-//                            if (board[x][i].hasPiece() && (board[x][i].getPiece().getType() != PieceType.BPAWN &&
-//                                        board[x][i].getPiece().getType() != PieceType.BROOK &&
-//                                        board[x][i].getPiece().getType() != PieceType.BBISHOP &&
-//                                        board[x][i].getPiece().getType() != PieceType.BKNIGHT &&
-//                                        board[x][i].getPiece().getType() != PieceType.BQUEEN &&
-//                                        board[x][i].getPiece().getType() != PieceType.BKING)) {
-//                                flag = false;
-//                            }
-//                            else if (board[x][i].hasPiece()) {
-//                                for (int j = i + 1; j < y0; j++) {
-//                                    if (board[x][j].hasPiece())
-//                                        flag = false;
-//                                }
-//                            }
-//                        }
-//                    }
-//                    else if (x == x0 && y > y0) {
-//                        for (int i = y0 + 1; i <= y; i++) {
-//                            if (board[x][i].hasPiece() && (board[x][i].getPiece().getType() != PieceType.BPAWN &&
-//                                    board[x][i].getPiece().getType() != PieceType.BROOK &&
-//                                    board[x][i].getPiece().getType() != PieceType.BBISHOP &&
-//                                    board[x][i].getPiece().getType() != PieceType.BKNIGHT &&
-//                                    board[x][i].getPiece().getType() != PieceType.BQUEEN &&
-//                                    board[x][i].getPiece().getType() != PieceType.BKING)) {
-//                                flag = false;
-//                            }
-//                            else if (board[x][i].hasPiece()) {
-//                                for (int j = y0 + 1; j < i; j++) {
-//                                    if (board[x][j].hasPiece())
-//                                        flag = false;
-//                                }
-//                            }
-//                        }
-//                    }
-//                    else if (y == y0 && x < x0) {
-//                        for (int i = x; i < x0; i++) {
-//                            if (board[i][y].hasPiece() && (board[i][y].getPiece().getType() != PieceType.BPAWN &&
-//                                    board[i][y].getPiece().getType() != PieceType.BROOK &&
-//                                    board[i][y].getPiece().getType() != PieceType.BBISHOP &&
-//                                    board[i][y].getPiece().getType() != PieceType.BKNIGHT &&
-//                                    board[i][y].getPiece().getType() != PieceType.BQUEEN &&
-//                                    board[i][y].getPiece().getType() != PieceType.BKING)) {
-//                                flag = false;
-//                            }
-//                            else if (board[i][y].hasPiece()) {
-//                                for (int j = i + 1; j < x0; j++) {
-//                                    if (board[j][y].hasPiece())
-//                                        flag = false;
-//                                }
-//                            }
-//                        }
-//                    }
-//                    else if (y == y0 && x > x0) {
-//                        for (int i = x0 + 1; i <= x; i++) {
-//                            if (board[i][y].hasPiece() && (board[i][y].getPiece().getType() != PieceType.BPAWN &&
-//                                    board[i][y].getPiece().getType() != PieceType.BROOK &&
-//                                    board[i][y].getPiece().getType() != PieceType.BBISHOP &&
-//                                    board[i][y].getPiece().getType() != PieceType.BKNIGHT &&
-//                                    board[i][y].getPiece().getType() != PieceType.BQUEEN &&
-//                                    board[i][y].getPiece().getType() != PieceType.BKING)) {
-//                                flag = false;
-//                            }
-//                            else if (board[i][y].hasPiece()) {
-//                                for (int j = x0 + 1; j < i; j++) {
-//                                    if (board[j][y].hasPiece())
-//                                        flag = false;
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
+                // set original rook position as valid move
+                board[x0][y0].setHighlight(true);
+                // set y to original rook position, countOpponent to no black pieces count.
+                y = y0;
+                countOpponent = 0;
+                // set valid moves for the top of rook.
+                while (countOpponent < 2 && y >= 0) {
+                    // Highlight tiles that have no piece on it
+                    if (!board[x0][y].hasPiece()) {
+                        board[x0][y].setHighlight(true);
+                        // Do not highlight tiles that have no piece and there is a piece between the rook and this tile
+                        for (int n = y0 - 1; n > y; n--) {
+                            if (board[x0][n].hasPiece()) {
+                                board[x0][y].setHighlight(false);
+                                break;
+                            }
+                        }
+                    }
+                    // Highlight tiles that have the first black piece on the route of rook.
+                    if (board[x0][y].hasPiece() && checkHasOpponentOnPosition(PieceType.WROOK, board[x0][y])) {
+                        // Increase the number of black piece count on the route of rook.
+                        countOpponent++;
+                        if (countOpponent < 2) {
+                            board[x0][y].setHighlight(true);
+                            // Check if there is no piece between this piece and the rook.
+                            for (int n = y0 - 1; n > y; n--) {
+                                if (board[x0][n].hasPiece()) {
+                                    board[x0][y].setHighlight(false);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    y--;
+                }
+                // set valid moves for the bottom of rook.
+                y = y0;
+                countOpponent = 0;
+
+                while (countOpponent < 2 && y < 8) {
+                    if (!board[x0][y].hasPiece()) {
+                        board[x0][y].setHighlight(true);
+                        // Do not highlight tiles that have no piece and there is a piece between the rook and this tile
+                        for (int n = y0 + 1; n < y; n++) {
+                            if (board[x0][n].hasPiece()) {
+                                board[x0][y].setHighlight(false);
+                                break;
+                            }
+                        }
+                    }
+                    if (board[x0][y].hasPiece() && checkHasOpponentOnPosition(PieceType.WROOK, board[x0][y])) {
+                        countOpponent++;
+                        if (countOpponent < 2) {
+                            board[x0][y].setHighlight(true);
+                            // Check if there is no piece between this piece and the rook.
+                            for (int n = y0 + 1; n < y; n++) {
+                                if (board[x0][n].hasPiece()) {
+                                    board[x0][y].setHighlight(false);
+                                    break;
+                                }
+
+                            }
+                        }
+                    }
+                    y++;
+                }
+                // set valid moves for the left of rook.
+                x = x0;
+                countOpponent = 0;
+
+                while (countOpponent < 2 && x >= 0) {
+                    if (!board[x][y0].hasPiece()) {
+                        board[x][y0].setHighlight(true);
+
+                        for (int m = x0 - 1; m > x; m--) {
+                            if (board[m][y0].hasPiece()) {
+                                board[x][y0].setHighlight(false);
+                                break;
+                            }
+                        }
+                    }
+                    if (board[x][y0].hasPiece() && checkHasOpponentOnPosition(PieceType.WROOK, board[x][y0])) {
+                        countOpponent++;
+                        if (countOpponent < 2) {
+                            board[x][y0].setHighlight(true);
+                            for (int m = x0 -1; m > x; m--) {
+                                if (board[m][y0].hasPiece()) {
+                                    board[x][y0].setHighlight(false);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    x--;
+                }
+                // set valid moves for the right of rook.
+                x = x0;
+                countOpponent = 0;
+
+                while (countOpponent < 2 && x < 8) {
+                    if (!board[x][y0].hasPiece()) {
+                        board[x][y0].setHighlight(true);
+
+                        for (int m = x0 + 1; m < x; m++) {
+                            if (board[m][y0].hasPiece()) {
+                                board[x][y0].setHighlight(false);
+                                break;
+                            }
+                        }
+                    }
+                    if (board[x][y0].hasPiece() && checkHasOpponentOnPosition(PieceType.WROOK, board[x][y0])) {
+                        countOpponent++;
+                        if (countOpponent < 2) {
+                            board[x][y0].setHighlight(true);
+                            for (int m = x0 + 1; m < x; m++) {
+                                if (board[m][y0].hasPiece()) {
+                                    board[x][y0].setHighlight(false);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    x++;
+                }
                 break;
             case BKNIGHT:
             case WKNIGHT:
