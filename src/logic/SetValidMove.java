@@ -69,8 +69,6 @@ public class SetValidMove {
                 }
                 break;
             case BROOK:
-                // set original rook position as valid move
-                board[x0][y0].setHighlight(true);
                 // set y to original rook position, countOpponent to no white pieces count.
                 y = y0;
                 countOpponent = 0;
@@ -195,8 +193,6 @@ public class SetValidMove {
                 }
                 break;
             case WROOK:
-                // set original rook position as valid move
-                board[x0][y0].setHighlight(true);
                 // set y to original rook position, countOpponent to no black pieces count.
                 y = y0;
                 countOpponent = 0;
@@ -339,11 +335,22 @@ public class SetValidMove {
                     board[x0 + 1][y0 + 2].setHighlight(true);
                 break;
             case WKNIGHT:
-//                if (((x == x0 - 2 && (y == y0 - 1 || y == y0 + 1)) || (x == x0 - 1 && (y == y0 - 2 || y == y0 + 2)) ||
-//                        (x == x0 + 2 && (y == y0 - 1 || y == y0 + 1)) || (x == x0 + 1 && (y == y0 - 2 || y == y0 + 2)))
-//                        && !board[x][y].hasPiece()) {
-//                    flag = true;
-//                }
+                if (withinBorder(x0 - 2, y0 - 1) && !checkHasSameSideOnPosition(PieceType.WKNIGHT, board[x0 - 2][y0 - 1]))
+                    board[x0 - 2][y0 - 1].setHighlight(true);
+                if (withinBorder(x0 - 2, y0 + 1) && !checkHasSameSideOnPosition(PieceType.WKNIGHT, board[x0 - 2][y0 + 1]))
+                    board[x0 - 2][y0 + 1].setHighlight(true);
+                if (withinBorder(x0 - 1, y0 - 2) && !checkHasSameSideOnPosition(PieceType.WKNIGHT, board[x0 - 1][y0 - 2]))
+                    board[x0 - 1][y0 - 2].setHighlight(true);
+                if (withinBorder(x0 - 1, y0 + 2) && !checkHasSameSideOnPosition(PieceType.WKNIGHT, board[x0 - 1][y0 + 2]))
+                    board[x0 - 1][y0 + 2].setHighlight(true);
+                if (withinBorder(x0 + 2, y0 - 1) && !checkHasSameSideOnPosition(PieceType.WKNIGHT, board[x0 + 2][y0 - 1]))
+                    board[x0 + 2][y0 - 1].setHighlight(true);
+                if (withinBorder(x0 + 2, y0 + 1) && !checkHasSameSideOnPosition(PieceType.WKNIGHT, board[x0 + 2][y0 + 1]))
+                    board[x0 + 2][y0 + 1].setHighlight(true);
+                if (withinBorder(x0 + 1, y0 - 2) && !checkHasSameSideOnPosition(PieceType.WKNIGHT, board[x0 + 1][y0 - 2]))
+                    board[x0 + 1][y0 - 2].setHighlight(true);
+                if (withinBorder(x0 + 1, y0 + 2) && !checkHasSameSideOnPosition(PieceType.WKNIGHT, board[x0 + 1][y0 + 2]))
+                    board[x0 + 1][y0 + 2].setHighlight(true);
                 break;
             case BBISHOP:
             case WBISHOP:
@@ -380,11 +387,40 @@ public class SetValidMove {
 //                }
                 break;
             case BKING:
+                if (withinBorder(x0 - 1, y0 - 1) && !checkHasSameSideOnPosition(PieceType.BKING, board[x0 - 1][y0 - 1]))
+                    board[x0 - 1][y0 - 1].setHighlight(true);
+                if (withinBorder(x0 - 1, y0) && !checkHasSameSideOnPosition(PieceType.BKING, board[x0 - 1][y0]))
+                    board[x0 - 1][y0].setHighlight(true);
+                if (withinBorder(x0 - 1, y0 + 1) && !checkHasSameSideOnPosition(PieceType.BKING, board[x0 - 1][y0 + 1]))
+                    board[x0 - 1][y0 + 1].setHighlight(true);
+                if (withinBorder(x0, y0 - 1) && !checkHasSameSideOnPosition(PieceType.BKING, board[x0][y0 - 1]))
+                    board[x0][y0 - 1].setHighlight(true);
+                if (withinBorder(x0, y0 + 1) && !checkHasSameSideOnPosition(PieceType.BKING, board[x0][y0 + 1]))
+                    board[x0][y0 + 1].setHighlight(true);
+                if (withinBorder(x0 + 1, y0 - 1) && !checkHasSameSideOnPosition(PieceType.BKING, board[x0 + 1][y0 - 1]))
+                    board[x0 + 1][y0 - 1].setHighlight(true);
+                if (withinBorder(x0 + 1, y0) && !checkHasSameSideOnPosition(PieceType.BKING, board[x0 + 1][y0]))
+                    board[x0 + 1][y0].setHighlight(true);
+                if (withinBorder(x0 + 1, y0 + 1) && !checkHasSameSideOnPosition(PieceType.BKING, board[x0 + 1][y0 + 1]))
+                    board[x0 + 1][y0 + 1].setHighlight(true);
+                break;
             case WKING:
-//                if (((x == x0 - 1 && (y == y0 - 1 || y == y0 || y == y0 + 1)) || (x == x0 && (y == y0 - 1 || y == y0 + 1)) ||
-//                        (x == x0 + 1 && (y == y0 - 1 || y == y0 || y == y0 + 1))) && !board[x][y].hasPiece()) {
-//                    flag = true;
-//                }
+                if (withinBorder(x0 - 1, y0 - 1) && !checkHasSameSideOnPosition(PieceType.WKING, board[x0 - 1][y0 - 1]))
+                    board[x0 - 1][y0 - 1].setHighlight(true);
+                if (withinBorder(x0 - 1, y0) && !checkHasSameSideOnPosition(PieceType.WKING, board[x0 - 1][y0]))
+                    board[x0 - 1][y0].setHighlight(true);
+                if (withinBorder(x0 - 1, y0 + 1) && !checkHasSameSideOnPosition(PieceType.WKING, board[x0 - 1][y0 + 1]))
+                    board[x0 - 1][y0 + 1].setHighlight(true);
+                if (withinBorder(x0, y0 - 1) && !checkHasSameSideOnPosition(PieceType.WKING, board[x0][y0 - 1]))
+                    board[x0][y0 - 1].setHighlight(true);
+                if (withinBorder(x0, y0 + 1) && !checkHasSameSideOnPosition(PieceType.WKING, board[x0][y0 + 1]))
+                    board[x0][y0 + 1].setHighlight(true);
+                if (withinBorder(x0 + 1, y0 - 1) && !checkHasSameSideOnPosition(PieceType.WKING, board[x0 + 1][y0 - 1]))
+                    board[x0 + 1][y0 - 1].setHighlight(true);
+                if (withinBorder(x0 + 1, y0) && !checkHasSameSideOnPosition(PieceType.WKING, board[x0 + 1][y0]))
+                    board[x0 + 1][y0].setHighlight(true);
+                if (withinBorder(x0 + 1, y0 + 1) && !checkHasSameSideOnPosition(PieceType.WKING, board[x0 + 1][y0 + 1]))
+                    board[x0 + 1][y0 + 1].setHighlight(true);
                 break;
             default:
                 board[x0][y0].setHighlight(true);
