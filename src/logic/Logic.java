@@ -940,21 +940,282 @@ public class Logic {
                 }
                 break;
             case WQUEEN:
-//                if ((x == x0 || y == y0) && !board[x][y].hasPiece()) {
-//                    flag = true;
-//                } else if (((x == x0 - 1 && y == y0 - 1) || (x == x0 - 2 && y == y0 - 2) || (x == x0 - 3 && y == y0 - 3) || (x == x0 - 4 && y == y0 - 4) ||
-//                        (x == x0 - 5 && y == y0 - 5) || (x == x0 - 6 && y == y0 - 6) || (x == x0 - 7 && y == y0 - 7)) && !board[x][y].hasPiece()) {
-//                    flag = true;
-//                } else if (((x == x0 + 1 && y == y0 - 1) || (x == x0 + 2 && y == y0 - 2) || (x == x0 + 3 && y == y0 - 3) || (x == x0 + 4 && y == y0 - 4) ||
-//                        (x == x0 + 5 && y == y0 - 5) || (x == x0 + 6 && y == y0 - 6) || (x == x0 + 7 && y == y0 - 7)) && !board[x][y].hasPiece()) {
-//                    flag = true;
-//                } else if (((x == x0 - 1 && y == y0 + 1) || (x == x0 - 2 && y == y0 + 2) || (x == x0 - 3 && y == y0 + 3) || (x == x0 - 4 && y == y0 + 4) ||
-//                        (x == x0 - 5 && y == y0 + 5) || (x == x0 - 6 && y == y0 + 6) || (x == x0 - 7 && y == y0 + 7)) && !board[x][y].hasPiece()) {
-//                    flag = true;
-//                } else if (((x == x0 + 1 && y == y0 + 1) || (x == x0 + 2 && y == y0 + 2) || (x == x0 + 3 && y == y0 + 3) || (x == x0 + 4 && y == y0 + 4) ||
-//                        (x == x0 + 5 && y == y0 + 5) || (x == x0 + 6 && y == y0 + 6) || (x == x0 + 7 && y == y0 + 7)) && !board[x][y].hasPiece()) {
-//                    flag =true;
-//                }
+                y = y0;
+                countOpponent = 0;
+                // set valid moves for the top of queen.
+                while (countOpponent < 2 && y >= 0) {
+                    // Highlight tiles that have no piece on it
+                    if (!board[x0][y].hasPiece()) {
+                        board[x0][y].setHighlight(true);
+                        // Do not highlight tiles that have no piece and there is a piece between the queen and this tile
+                        for (int n = y0 - 1; n > y; n--) {
+                            if (board[x0][n].hasPiece()) {
+                                board[x0][y].setHighlight(false);
+                                break;
+                            }
+                        }
+                    }
+                    // Highlight tiles that have the first black piece on the route of queen.
+                    if (checkHasOpponentOnPosition(PieceType.WQUEEN, board[x0][y])) {
+                        // Increase the number of black piece count on the route of queen.
+                        countOpponent++;
+                        if (countOpponent < 2) {
+                            board[x0][y].setHighlight(true);
+                            // Check if there is no piece between this piece and the queen.
+                            for (int n = y0 - 1; n > y; n--) {
+                                if (board[x0][n].hasPiece()) {
+                                    board[x0][y].setHighlight(false);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    y--;
+                }
+                // reset y to original queen position, countOpponent to no black pieces count.
+                y = y0;
+                countOpponent = 0;
+                // set valid moves for the bottom of queen.
+                while (countOpponent < 2 && y < 8) {
+                    if (!board[x0][y].hasPiece()) {
+                        board[x0][y].setHighlight(true);
+                        // Do not highlight tiles that have no piece and there is a piece between the queen and this tile
+                        for (int n = y0 + 1; n < y; n++) {
+                            if (board[x0][n].hasPiece()) {
+                                board[x0][y].setHighlight(false);
+                                break;
+                            }
+                        }
+                    }
+                    if (checkHasOpponentOnPosition(PieceType.WQUEEN, board[x0][y])) {
+                        countOpponent++;
+                        if (countOpponent < 2) {
+                            board[x0][y].setHighlight(true);
+                            // Check if there is no piece between this piece and the queen.
+                            for (int n = y0 + 1; n < y; n++) {
+                                if (board[x0][n].hasPiece()) {
+                                    board[x0][y].setHighlight(false);
+                                    break;
+                                }
+
+                            }
+                        }
+                    }
+                    y++;
+                }
+                // set valid moves for the left of queen.
+                x = x0;
+                countOpponent = 0;
+
+                while (countOpponent < 2 && x >= 0) {
+                    if (!board[x][y0].hasPiece()) {
+                        board[x][y0].setHighlight(true);
+
+                        for (int m = x0 - 1; m > x; m--) {
+                            if (board[m][y0].hasPiece()) {
+                                board[x][y0].setHighlight(false);
+                                break;
+                            }
+                        }
+                    }
+                    if (checkHasOpponentOnPosition(PieceType.WQUEEN, board[x][y0])) {
+                        countOpponent++;
+                        if (countOpponent < 2) {
+                            board[x][y0].setHighlight(true);
+                            for (int m = x0 -1; m > x; m--) {
+                                if (board[m][y0].hasPiece()) {
+                                    board[x][y0].setHighlight(false);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    x--;
+                }
+                // set valid moves for the right of queen.
+                x = x0;
+                countOpponent = 0;
+
+                while (countOpponent < 2 && x < 8) {
+                    if (!board[x][y0].hasPiece()) {
+                        board[x][y0].setHighlight(true);
+
+                        for (int m = x0 + 1; m < x; m++) {
+                            if (board[m][y0].hasPiece()) {
+                                board[x][y0].setHighlight(false);
+                                break;
+                            }
+                        }
+                    }
+                    if (checkHasOpponentOnPosition(PieceType.WQUEEN, board[x][y0])) {
+                        countOpponent++;
+                        if (countOpponent < 2) {
+                            board[x][y0].setHighlight(true);
+                            for (int m = x0 + 1; m < x; m++) {
+                                if (board[m][y0].hasPiece()) {
+                                    board[x][y0].setHighlight(false);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    x++;
+                }
+
+                // set valid moves for the top left of queen.
+                x = x0;
+                y = y0;
+                countOpponent = 0;
+
+                while (countOpponent < 2 && withinBorder(x, y)) {
+                    if (!board[x][y].hasPiece()) {
+                        board[x][y].setHighlight(true);
+                        // Do not highlight tiles that have no piece and there is a piece between the queen and this tile
+                        tempX = x0 - 1;
+                        tempY = y0 - 1;
+                        while (tempX > x && tempY > y) {
+                            if (board[tempX][tempY].hasPiece()) {
+                                board[x][y].setHighlight(false);
+                                break;
+                            }
+                            tempX--;
+                            tempY--;
+                        }
+                    }
+                    // Highlight tiles that have the first black piece on the route of queen.
+                    if (checkHasOpponentOnPosition(PieceType.WQUEEN, board[x][y])) {
+                        countOpponent++;
+                        if (countOpponent < 2) {
+                            board[x][y].setHighlight(true);
+                            tempX = x0 - 1;
+                            tempY = y0 - 1;
+                            while (tempX > x && tempY > y) {
+                                if (board[tempX][tempY].hasPiece()) {
+                                    board[x][y].setHighlight(false);
+                                    break;
+                                }
+                                tempX--;
+                                tempY--;
+                            }
+                        }
+                    }
+                    x--;
+                    y--;
+                }
+                // set valid moves for the top right of queen.
+                x = x0;
+                y = y0;
+                countOpponent = 0;
+
+                while (countOpponent < 2 && withinBorder(x, y)) {
+                    if (!board[x][y].hasPiece()) {
+                        board[x][y].setHighlight(true);
+                        tempX = x0 + 1;
+                        tempY = y0 - 1;
+                        while (tempX < x && tempY > y) {
+                            if (board[tempX][tempY].hasPiece()) {
+                                board[x][y].setHighlight(false);
+                                break;
+                            }
+                            tempX++;
+                            tempY--;
+                        }
+                    }
+                    if (checkHasOpponentOnPosition(PieceType.WQUEEN, board[x][y])) {
+                        countOpponent++;
+                        if (countOpponent < 2) {
+                            board[x][y].setHighlight(true);
+                            tempX = x0 + 1;
+                            tempY = y0 - 1;
+                            while (tempX < x && tempY > y) {
+                                if (board[tempX][tempY].hasPiece()) {
+                                    board[x][y].setHighlight(false);
+                                    break;
+                                }
+                                tempX++;
+                                tempY--;
+                            }
+                        }
+                    }
+                    x++;
+                    y--;
+                }
+                // set valid moves for the bottom left of queen.
+                x = x0;
+                y = y0;
+                countOpponent = 0;
+
+                while (countOpponent < 2 && withinBorder(x, y)) {
+                    if (!board[x][y].hasPiece()) {
+                        board[x][y].setHighlight(true);
+                        tempX = x0 - 1;
+                        tempY = y0 + 1;
+                        while (tempX > x && tempY < y) {
+                            if (board[tempX][tempY].hasPiece()) {
+                                board[x][y].setHighlight(false);
+                                break;
+                            }
+                            tempX--;
+                            tempY++;
+                        }
+                    }
+                    if (checkHasOpponentOnPosition(PieceType.WQUEEN, board[x][y])) {
+                        countOpponent++;
+                        if (countOpponent < 2) {
+                            board[x][y].setHighlight(true);
+                            tempX = x0 - 1;
+                            tempY = y0 + 1;
+                            while (tempX > x && tempY < y) {
+                                if (board[tempX][tempY].hasPiece()) {
+                                    board[x][y].setHighlight(false);
+                                    break;
+                                }
+                                tempX--;
+                                tempY++;
+                            }
+                        }
+                    }
+                    x--;
+                    y++;
+                }
+                // set valid moves for the bottom right of queen.
+                x = x0;
+                y = y0;
+                countOpponent = 0;
+
+                while (countOpponent < 2 && withinBorder(x, y)) {
+                    if (!board[x][y].hasPiece()) {
+                        board[x][y].setHighlight(true);
+                        tempX = x0 + 1;
+                        tempY = y0 + 1;
+                        while (tempX < x && tempY < y) {
+                            if (board[tempX][tempY].hasPiece()) {
+                                board[x][y].setHighlight(false);
+                                break;
+                            }
+                            tempX++;
+                            tempY++;
+                        }
+                    }
+                    if ( checkHasOpponentOnPosition(PieceType.WQUEEN, board[x][y])) {
+                        countOpponent++;
+                        if (countOpponent < 2) {
+                            board[x][y].setHighlight(true);
+                            tempX = x0 + 1;
+                            tempY = y0 + 1;
+                            while (tempX < x && tempY < y) {
+                                if (board[tempX][tempY].hasPiece()) {
+                                    board[x][y].setHighlight(false);
+                                    break;
+                                }
+                                tempX++;
+                                tempY++;
+                            }
+                        }
+                    }
+                    x++;
+                    y++;
+                }
                 break;
             case BKING:
                 if (withinBorder(x0 - 1, y0 - 1) && !checkHasSameSideOnPosition(PieceType.BKING, board[x0 - 1][y0 - 1]))
