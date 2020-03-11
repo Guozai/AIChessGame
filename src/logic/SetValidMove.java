@@ -1,5 +1,6 @@
 package logic;
 
+import gui.Piece;
 import gui.PieceType;
 import gui.Tile;
 
@@ -353,6 +354,143 @@ public class SetValidMove {
                     board[x0 + 1][y0 + 2].setHighlight(true);
                 break;
             case BBISHOP:
+                // set valid moves for the top left of bishop.
+                x = x0;
+                y = y0;
+                countOpponent = 0;
+
+                while (countOpponent < 2 && withinBorder(x, y)) {
+                    if (!board[x][y].hasPiece()) {
+                        board[x][y].setHighlight(true);
+                        // Do not highlight tiles that have no piece and there is a piece between the bishop and this tile
+                        // if x0 <= y0, use x0
+                        if (x0 <= y0) {
+                            for (int m = 1; m < x0 - 1; m++) {
+                                if (withinBorder(x0 - m, y0 - m) && board[x0 - m][y0 - m].hasPiece()) {
+                                    System.out.println("board["+(x0-m)+"]["+(y0-m)+"]: "+board[x0-m][y0-m].getPiece().getType());
+                                    board[x][y].setHighlight(false);
+                                    System.out.println("board["+x+"]["+y+"].setHighlight(false)");
+                                    System.out.println("------------------------------------");
+                                    break;
+                                }
+                            }
+                        }
+                        // else use y0
+                        else {
+                            for (int m = 1; m < y0 - 1; m++) {
+                                if (withinBorder(x0 - m, y0 - m) && board[x0 - m][y0 - m].hasPiece()) {
+                                    System.out.println("board["+(x0-m)+"]["+(y0-m)+"]: "+board[x0-m][y0-m].getPiece().getType());
+                                    board[x][y].setHighlight(false);
+                                    System.out.println("board["+x+"]["+y+"].setHighlight(false)");
+                                    System.out.println("------------------------------------");
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    // Highlight tiles that have the first white piece on the route of bishop.
+                    if (checkHasOpponentOnPosition(PieceType.BBISHOP, board[x][y])) {
+                        countOpponent++;
+                        if (countOpponent < 2) {
+                            board[x][y].setHighlight(true);
+                            if (x0 <= y0) {
+                                for (int m = 1; m < x0 - 1; m++) {
+                                    if (withinBorder(x0 - m, y0 - m) && board[x0 - m][y0 - m].hasPiece()) {
+                                        System.out.println("board["+(x0-m)+"]["+(y0-m)+"]: "+board[x0-m][y0-m].getPiece().getType());
+                                        board[x][y].setHighlight(false);
+                                        System.out.println("board["+x+"]["+y+"].setHighlight(false)");
+                                        System.out.println("------------------------------------");
+                                        break;
+                                    }
+                                }
+                            }
+                            else {
+                                for (int m = 1; m < y0 - 1; m++) {
+                                    if (withinBorder(x0 - m, y0 - m) && board[x0 - m][y0 - m].hasPiece()) {
+                                        System.out.println("board["+(x0-m)+"]["+(y0-m)+"]: "+board[x0-m][y0-m].getPiece().getType());
+                                        board[x][y].setHighlight(false);
+                                        System.out.println("board["+x+"]["+y+"].setHighlight(false)");
+                                        System.out.println("------------------------------------");
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    x--;
+                    y--;
+                }
+//                // set valid moves for the top right of bishop.
+//                x = x0;
+//                y = y0;
+//                countOpponent = 0;
+//
+//                while (countOpponent < 2 && withinBorder(x, y)) {
+//                    if (!board[x][y].hasPiece()) {
+//                        board[x][y].setHighlight(true);
+//                        if (x0 <= y0) {
+//                            for (int m = y0 - 1; m > y; m--) {
+//                                if (withinBorder(x0 + m, y0 - m) && board[x0 + m][y0 - m].hasPiece()) {
+//                                    board[x][y].setHighlight(false);
+//                                    break;
+//                                }
+//                            }
+//                        }
+//                        else {
+//                            for (int m = x0 + 1; m < x; m++) {
+//                                if (withinBorder(x0 + m, y0 - m) && board[x0 + m][y0 - m].hasPiece()) {
+//                                    board[x][y].setHighlight(false);
+//                                    break;
+//                                }
+//                            }
+//                        }
+//                    }
+//                    if (checkHasOpponentOnPosition(PieceType.BBISHOP, board[x][y])) {
+//                        countOpponent++;
+//                        if (countOpponent < 2) {
+//                            board[x][y].setHighlight(true);
+//                            if (x0 <= y0) {
+//                                for (int m = y0 - 1; m > y; m--) {
+//                                    if (withinBorder(x0 + m, y0 - m) && board[x0 + m][y0 - m].hasPiece()) {
+//                                        board[x][y].setHighlight(false);
+//                                        break;
+//                                    }
+//                                }
+//                            }
+//                            else {
+//                                for (int m = x0 + 1; m < x; m++) {
+//                                    if (withinBorder(x0 + m, y0 - m) && board[x0 + m][y0 - m].hasPiece()) {
+//                                        board[x][y].setHighlight(false);
+//                                        break;
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//                    x++;
+//                    y--;
+//                }
+//                // set valid moves for the bottom left of bishop.
+//                x = x0;
+//                y = y0;
+//                countOpponent = 0;
+//
+//                while () {
+//
+//                    x--;
+//                    y++;
+//                }
+//                // set valid moves for the bottom right of bishop.
+//                x = x0;
+//                y = y0;
+//                countOpponent = 0;
+//
+//                while () {
+//
+//                    x++;
+//                    y++;
+//                }
+                break;
             case WBISHOP:
 //                if (((x == x0 - 1 && y == y0 - 1) || (x == x0 - 2 && y == y0 - 2) || (x == x0 - 3 && y == y0 - 3) || (x == x0 - 4 && y == y0 - 4) ||
 //                        (x == x0 - 5 && y == y0 - 5) || (x == x0 - 6 && y == y0 - 6) || (x == x0 - 7 && y == y0 - 7)) && !board[x][y].hasPiece()) {
@@ -369,6 +507,7 @@ public class SetValidMove {
 //                }
                 break;
             case BQUEEN:
+                break;
             case WQUEEN:
 //                if ((x == x0 || y == y0) && !board[x][y].hasPiece()) {
 //                    flag = true;
