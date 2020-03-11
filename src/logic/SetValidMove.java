@@ -45,7 +45,13 @@ public class SetValidMove {
                     board[x0][y0 + 1].setHighlight(true);
                     board[x0][y0 + 2].setHighlight(true);
                 } else if (y0 < 7){
-                    board[x0][y0 + 1].setHighlight(true);
+                    if (!board[x0][y0 + 1].hasPiece())
+                        board[x0][y0 + 1].setHighlight(true);
+                    // When a white piece is on the front left or front right of a black pawn, it is a valid move.
+                    if (x0 - 1 >= 0 && checkHasOpponentOnPosition(PieceType.BPAWN, board[x0 - 1][y0 + 1]))
+                        board[x0 - 1][y0 + 1].setHighlight(true);
+                    else if (x0 + 1 < 8 && checkHasOpponentOnPosition(PieceType.BPAWN, board[x0 + 1][y0 + 1]))
+                        board[x0 + 1][y0 + 1].setHighlight(true);
                 }
                 break;
             case WPAWN:
@@ -372,6 +378,10 @@ public class SetValidMove {
 //    }
 
     boolean checkHasSameSideOnPosition(PieceType type, Tile tile) {
+        // check if there is a piece on the position
+        if (!tile.hasPiece())
+            return false;
+
         switch (type) {
             case BPAWN:
             case BROOK:
@@ -411,6 +421,10 @@ public class SetValidMove {
     }
 
     boolean checkHasOpponentOnPosition(PieceType type, Tile tile) {
+        // check if there is a piece on the position
+        if (!tile.hasPiece())
+            return false;
+
         switch (type) {
             case BPAWN:
             case BROOK:
