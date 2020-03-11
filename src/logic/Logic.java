@@ -32,6 +32,9 @@ public class Logic {
 
         int countOpponent;
         int x, y;
+        // xPtr and yPtr moving from x0 y0 to x y to check if there is a piece in between target tile and bishop
+        int tempX, tempY;
+
         // The legal move of black pawn if there is no other piece on the chessboard
         switch(type) {
             case BPAWN:
@@ -347,8 +350,6 @@ public class Logic {
                     board[x0 + 1][y0 + 2].setHighlight(true);
                 break;
             case BBISHOP:
-                // xPtr and yPtr moving from x0 y0 to x y to check if there is a piece in between target tile and bishop
-                int m, n;
                 // set valid moves for the top left of bishop.
                 x = x0;
                 y = y0;
@@ -358,31 +359,31 @@ public class Logic {
                     if (!board[x][y].hasPiece()) {
                         board[x][y].setHighlight(true);
                         // Do not highlight tiles that have no piece and there is a piece between the bishop and this tile
-                        m = x0 - 1;
-                        n = y0 - 1;
-                        while (m > x && n > y) {
-                            if (board[m][n].hasPiece()) {
+                        tempX = x0 - 1;
+                        tempY = y0 - 1;
+                        while (tempX > x && tempY > y) {
+                            if (board[tempX][tempY].hasPiece()) {
                                 board[x][y].setHighlight(false);
                                 break;
                             }
-                            m--;
-                            n--;
+                            tempX--;
+                            tempY--;
                         }
                     }
                     // Highlight tiles that have the first white piece on the route of bishop.
-                    if (checkHasOpponentOnPosition(PieceType.BBISHOP, board[x][y])) {
+                    if (checkHasOpponentOnPosition(PieceType.WBISHOP, board[x][y])) {
                         countOpponent++;
                         if (countOpponent < 2) {
                             board[x][y].setHighlight(true);
-                            m = x0 - 1;
-                            n = y0 - 1;
-                            while (m > x && n > y) {
-                                if (board[m][n].hasPiece()) {
+                            tempX = x0 - 1;
+                            tempY = y0 - 1;
+                            while (tempX > x && tempY > y) {
+                                if (board[tempX][tempY].hasPiece()) {
                                     board[x][y].setHighlight(false);
                                     break;
                                 }
-                                m--;
-                                n--;
+                                tempX--;
+                                tempY--;
                             }
                         }
                     }
@@ -397,30 +398,30 @@ public class Logic {
                 while (countOpponent < 2 && withinBorder(x, y)) {
                     if (!board[x][y].hasPiece()) {
                         board[x][y].setHighlight(true);
-                        m = x0 + 1;
-                        n = y0 - 1;
-                        while (m < x && n > y) {
-                            if (board[m][n].hasPiece()) {
+                        tempX = x0 + 1;
+                        tempY = y0 - 1;
+                        while (tempX < x && tempY > y) {
+                            if (board[tempX][tempY].hasPiece()) {
                                 board[x][y].setHighlight(false);
                                 break;
                             }
-                            m++;
-                            n--;
+                            tempX++;
+                            tempY--;
                         }
                     }
                     if (checkHasOpponentOnPosition(PieceType.BBISHOP, board[x][y])) {
                         countOpponent++;
                         if (countOpponent < 2) {
                             board[x][y].setHighlight(true);
-                            m = x0 + 1;
-                            n = y0 - 1;
-                            while (m < x && n > y) {
-                                if (board[m][n].hasPiece()) {
+                            tempX = x0 + 1;
+                            tempY = y0 - 1;
+                            while (tempX < x && tempY > y) {
+                                if (board[tempX][tempY].hasPiece()) {
                                     board[x][y].setHighlight(false);
                                     break;
                                 }
-                                m++;
-                                n--;
+                                tempX++;
+                                tempY--;
                             }
                         }
                     }
@@ -435,30 +436,30 @@ public class Logic {
                 while (countOpponent < 2 && withinBorder(x, y)) {
                     if (!board[x][y].hasPiece()) {
                         board[x][y].setHighlight(true);
-                        m = x0 - 1;
-                        n = y0 + 1;
-                        while (m > x && n < y) {
-                            if (board[m][n].hasPiece()) {
+                        tempX = x0 - 1;
+                        tempY = y0 + 1;
+                        while (tempX > x && tempY < y) {
+                            if (board[tempX][tempY].hasPiece()) {
                                 board[x][y].setHighlight(false);
                                 break;
                             }
-                            m--;
-                            n++;
+                            tempX--;
+                            tempY++;
                         }
                     }
                     if (checkHasOpponentOnPosition(PieceType.BBISHOP, board[x][y])) {
                         countOpponent++;
                         if (countOpponent < 2) {
                             board[x][y].setHighlight(true);
-                            m = x0 - 1;
-                            n = y0 + 1;
-                            while (m > x && n < y) {
-                                if (board[m][n].hasPiece()) {
+                            tempX = x0 - 1;
+                            tempY = y0 + 1;
+                            while (tempX > x && tempY < y) {
+                                if (board[tempX][tempY].hasPiece()) {
                                     board[x][y].setHighlight(false);
                                     break;
                                 }
-                                m--;
-                                n++;
+                                tempX--;
+                                tempY++;
                             }
                         }
                     }
@@ -473,30 +474,30 @@ public class Logic {
                 while (countOpponent < 2 && withinBorder(x, y)) {
                     if (!board[x][y].hasPiece()) {
                         board[x][y].setHighlight(true);
-                        m = x0 + 1;
-                        n = y0 + 1;
-                        while (m < x && n < y) {
-                            if (board[m][n].hasPiece()) {
+                        tempX = x0 + 1;
+                        tempY = y0 + 1;
+                        while (tempX < x && tempY < y) {
+                            if (board[tempX][tempY].hasPiece()) {
                                 board[x][y].setHighlight(false);
                                 break;
                             }
-                            m++;
-                            n++;
+                            tempX++;
+                            tempY++;
                         }
                     }
                     if ( checkHasOpponentOnPosition(PieceType.BBISHOP, board[x][y])) {
                         countOpponent++;
                         if (countOpponent < 2) {
                             board[x][y].setHighlight(true);
-                            m = x0 + 1;
-                            n = y0 + 1;
-                            while (m < x && n < y) {
-                                if (board[m][n].hasPiece()) {
+                            tempX = x0 + 1;
+                            tempY = y0 + 1;
+                            while (tempX < x && tempY < y) {
+                                if (board[tempX][tempY].hasPiece()) {
                                     board[x][y].setHighlight(false);
                                     break;
                                 }
-                                m++;
-                                n++;
+                                tempX++;
+                                tempY++;
                             }
                         }
                     }
@@ -505,19 +506,160 @@ public class Logic {
                 }
                 break;
             case WBISHOP:
-//                if (((x == x0 - 1 && y == y0 - 1) || (x == x0 - 2 && y == y0 - 2) || (x == x0 - 3 && y == y0 - 3) || (x == x0 - 4 && y == y0 - 4) ||
-//                        (x == x0 - 5 && y == y0 - 5) || (x == x0 - 6 && y == y0 - 6) || (x == x0 - 7 && y == y0 - 7)) && !board[x][y].hasPiece()) {
-//                    flag = true;
-//                } else if (((x == x0 + 1 && y == y0 - 1) || (x == x0 + 2 && y == y0 - 2) || (x == x0 + 3 && y == y0 - 3) || (x == x0 + 4 && y == y0 - 4) ||
-//                        (x == x0 + 5 && y == y0 - 5) || (x == x0 + 6 && y == y0 - 6) || (x == x0 + 7 && y == y0 - 7)) && !board[x][y].hasPiece()) {
-//                    flag = true;
-//                } else if (((x == x0 - 1 && y == y0 + 1) || (x == x0 - 2 && y == y0 + 2) || (x == x0 - 3 && y == y0 + 3) || (x == x0 - 4 && y == y0 + 4) ||
-//                        (x == x0 - 5 && y == y0 + 5) || (x == x0 - 6 && y == y0 + 6) || (x == x0 - 7 && y == y0 + 7)) && !board[x][y].hasPiece()) {
-//                    flag = true;
-//                } else if (((x == x0 + 1 && y == y0 + 1) || (x == x0 + 2 && y == y0 + 2) || (x == x0 + 3 && y == y0 + 3) || (x == x0 + 4 && y == y0 + 4) ||
-//                        (x == x0 + 5 && y == y0 + 5) || (x == x0 + 6 && y == y0 + 6) || (x == x0 + 7 && y == y0 + 7)) && !board[x][y].hasPiece()) {
-//                    flag = true;
-//                }
+                // set valid moves for the top left of bishop.
+                x = x0;
+                y = y0;
+                countOpponent = 0;
+
+                while (countOpponent < 2 && withinBorder(x, y)) {
+                    if (!board[x][y].hasPiece()) {
+                        board[x][y].setHighlight(true);
+                        // Do not highlight tiles that have no piece and there is a piece between the bishop and this tile
+                        tempX = x0 - 1;
+                        tempY = y0 - 1;
+                        while (tempX > x && tempY > y) {
+                            if (board[tempX][tempY].hasPiece()) {
+                                board[x][y].setHighlight(false);
+                                break;
+                            }
+                            tempX--;
+                            tempY--;
+                        }
+                    }
+                    // Highlight tiles that have the first white piece on the route of bishop.
+                    if (checkHasOpponentOnPosition(PieceType.WBISHOP, board[x][y])) {
+                        countOpponent++;
+                        if (countOpponent < 2) {
+                            board[x][y].setHighlight(true);
+                            tempX = x0 - 1;
+                            tempY = y0 - 1;
+                            while (tempX > x && tempY > y) {
+                                if (board[tempX][tempY].hasPiece()) {
+                                    board[x][y].setHighlight(false);
+                                    break;
+                                }
+                                tempX--;
+                                tempY--;
+                            }
+                        }
+                    }
+                    x--;
+                    y--;
+                }
+                // set valid moves for the top right of bishop.
+                x = x0;
+                y = y0;
+                countOpponent = 0;
+
+                while (countOpponent < 2 && withinBorder(x, y)) {
+                    if (!board[x][y].hasPiece()) {
+                        board[x][y].setHighlight(true);
+                        tempX = x0 + 1;
+                        tempY = y0 - 1;
+                        while (tempX < x && tempY > y) {
+                            if (board[tempX][tempY].hasPiece()) {
+                                board[x][y].setHighlight(false);
+                                break;
+                            }
+                            tempX++;
+                            tempY--;
+                        }
+                    }
+                    if (checkHasOpponentOnPosition(PieceType.WBISHOP, board[x][y])) {
+                        countOpponent++;
+                        if (countOpponent < 2) {
+                            board[x][y].setHighlight(true);
+                            tempX = x0 + 1;
+                            tempY = y0 - 1;
+                            while (tempX < x && tempY > y) {
+                                if (board[tempX][tempY].hasPiece()) {
+                                    board[x][y].setHighlight(false);
+                                    break;
+                                }
+                                tempX++;
+                                tempY--;
+                            }
+                        }
+                    }
+                    x++;
+                    y--;
+                }
+                // set valid moves for the bottom left of bishop.
+                x = x0;
+                y = y0;
+                countOpponent = 0;
+
+                while (countOpponent < 2 && withinBorder(x, y)) {
+                    if (!board[x][y].hasPiece()) {
+                        board[x][y].setHighlight(true);
+                        tempX = x0 - 1;
+                        tempY = y0 + 1;
+                        while (tempX > x && tempY < y) {
+                            if (board[tempX][tempY].hasPiece()) {
+                                board[x][y].setHighlight(false);
+                                break;
+                            }
+                            tempX--;
+                            tempY++;
+                        }
+                    }
+                    if (checkHasOpponentOnPosition(PieceType.WBISHOP, board[x][y])) {
+                        countOpponent++;
+                        if (countOpponent < 2) {
+                            board[x][y].setHighlight(true);
+                            tempX = x0 - 1;
+                            tempY = y0 + 1;
+                            while (tempX > x && tempY < y) {
+                                if (board[tempX][tempY].hasPiece()) {
+                                    board[x][y].setHighlight(false);
+                                    break;
+                                }
+                                tempX--;
+                                tempY++;
+                            }
+                        }
+                    }
+                    x--;
+                    y++;
+                }
+                // set valid moves for the bottom right of bishop.
+                x = x0;
+                y = y0;
+                countOpponent = 0;
+
+                while (countOpponent < 2 && withinBorder(x, y)) {
+                    if (!board[x][y].hasPiece()) {
+                        board[x][y].setHighlight(true);
+                        tempX = x0 + 1;
+                        tempY = y0 + 1;
+                        while (tempX < x && tempY < y) {
+                            if (board[tempX][tempY].hasPiece()) {
+                                board[x][y].setHighlight(false);
+                                break;
+                            }
+                            tempX++;
+                            tempY++;
+                        }
+                    }
+                    if ( checkHasOpponentOnPosition(PieceType.WBISHOP, board[x][y])) {
+                        countOpponent++;
+                        if (countOpponent < 2) {
+                            board[x][y].setHighlight(true);
+                            tempX = x0 + 1;
+                            tempY = y0 + 1;
+                            while (tempX < x && tempY < y) {
+                                if (board[tempX][tempY].hasPiece()) {
+                                    board[x][y].setHighlight(false);
+                                    break;
+                                }
+                                tempX++;
+                                tempY++;
+                            }
+                        }
+                    }
+                    x++;
+                    y++;
+                }
                 break;
             case BQUEEN:
                 break;
