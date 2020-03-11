@@ -347,11 +347,12 @@ public class Logic {
                     board[x0 + 1][y0 + 2].setHighlight(true);
                 break;
             case BBISHOP:
+                // xPtr and yPtr moving from x0 y0 to x y to check if there is a piece in between target tile and bishop
+                int m, n;
                 // set valid moves for the top left of bishop.
                 x = x0;
                 y = y0;
                 countOpponent = 0;
-                int m, n;
 
                 while (countOpponent < 2 && withinBorder(x, y)) {
                     if (!board[x][y].hasPiece()) {
@@ -359,7 +360,7 @@ public class Logic {
                         // Do not highlight tiles that have no piece and there is a piece between the bishop and this tile
                         m = x0 - 1;
                         n = y0 - 1;
-                        while (withinBorder(x, y) && m > x && n > y) {
+                        while (m > x && n > y) {
                             if (board[m][n].hasPiece()) {
                                 board[x][y].setHighlight(false);
                                 break;
@@ -375,7 +376,7 @@ public class Logic {
                             board[x][y].setHighlight(true);
                             m = x0 - 1;
                             n = y0 - 1;
-                            while (withinBorder(x, y) && m > x && n > y) {
+                            while (m > x && n > y) {
                                 if (board[m][n].hasPiece()) {
                                     board[x][y].setHighlight(false);
                                     break;
@@ -396,7 +397,9 @@ public class Logic {
 //                while (countOpponent < 2 && withinBorder(x, y)) {
 //                    if (!board[x][y].hasPiece()) {
 //                        board[x][y].setHighlight(true);
-//                        if (x0 <= y0) {
+//                        m = x0 + 1;
+//                        n = y0 - 1;
+//
 //                            for (int m = y0 - 1; m > y; m--) {
 //                                if (withinBorder(x0 + m, y0 - m) && board[x0 + m][y0 - m].hasPiece()) {
 //                                    board[x][y].setHighlight(false);
