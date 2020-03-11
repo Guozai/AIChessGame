@@ -76,11 +76,11 @@ public class SetValidMove {
                         }
                     }
                     // Increase the number of white piece count on the route of rook.
-                    if (board[x0][y].hasPiece() && checkHasOpponentOnPosition(PieceType.BROOK, x0, y, board)) {
+                    if (board[x0][y].hasPiece() && checkHasOpponentOnPosition(PieceType.BROOK, board[x0][y])) {
                         countOpponent++;
                     }
                     // Highlight tiles that have the first white piece on the route of rook.
-                    if (board[x0][y].hasPiece() && checkHasOpponentOnPosition(PieceType.BROOK, x0, y, board) && countOpponent < 2) {
+                    if (board[x0][y].hasPiece() && checkHasOpponentOnPosition(PieceType.BROOK, board[x0][y]) && countOpponent < 2) {
                         board[x0][y].setHighlight(true);
                         // Check if there is no piece between this piece and the rook.
                         for (int n = y0 - 1; n > y; n--) {
@@ -108,10 +108,10 @@ public class SetValidMove {
                             }
                         }
                     }
-                    if (board[x0][y].hasPiece() && checkHasOpponentOnPosition(PieceType.BROOK, x0, y, board)) {
+                    if (board[x0][y].hasPiece() && checkHasOpponentOnPosition(PieceType.BROOK, board[x0][y])) {
                         countOpponent++;
                     }
-                    if (board[x0][y].hasPiece() && checkHasOpponentOnPosition(PieceType.BROOK, x0, y, board) && countOpponent < 2) {
+                    if (board[x0][y].hasPiece() && checkHasOpponentOnPosition(PieceType.BROOK, board[x0][y]) && countOpponent < 2) {
                         board[x0][y].setHighlight(true);
                         // Check if there is no piece between this piece and the rook.
                         for (int n = y0 + 1; n < y; n++) {
@@ -139,10 +139,10 @@ public class SetValidMove {
                             }
                         }
                     }
-                    if (board[x][y0].hasPiece() && checkHasOpponentOnPosition(PieceType.BROOK, x, y0, board)) {
+                    if (board[x][y0].hasPiece() && checkHasOpponentOnPosition(PieceType.BROOK, board[x][y0])) {
                         countOpponent++;
                     }
-                    if (board[x][y0].hasPiece() && checkHasOpponentOnPosition(PieceType.BROOK, x, y0, board) && countOpponent < 2) {
+                    if (board[x][y0].hasPiece() && checkHasOpponentOnPosition(PieceType.BROOK, board[x][y0]) && countOpponent < 2) {
                         board[x][y0].setHighlight(true);
                         for (int m = x0 -1; m > x; m--) {
                             if (board[m][y0].hasPiece()) {
@@ -168,7 +168,10 @@ public class SetValidMove {
                             }
                         }
                     }
-                    if (board[x][y0].hasPiece() && checkHasOpponentOnPosition(PieceType.BROOK, x, y0, board)) {
+                    if (board[x][y0].hasPiece() && checkHasOpponentOnPosition(PieceType.BROOK, board[x][y0])) {
+                        countOpponent++;
+                    }
+                    if (board[x][y0].hasPiece() && checkHasOpponentOnPosition(PieceType.BROOK, board[x][y0])) {
                         board[x][y0].setHighlight(true);
                         for (int m = x0 + 1; m < x; m++) {
                             if (board[m][y0].hasPiece()) {
@@ -320,7 +323,7 @@ public class SetValidMove {
 //        }
 //    }
 
-    boolean checkHasSameSideOnPosition(PieceType type, int x, int y, Tile[][] board) {
+    boolean checkHasSameSideOnPosition(PieceType type, Tile tile) {
         switch (type) {
             case BPAWN:
             case BROOK:
@@ -328,12 +331,12 @@ public class SetValidMove {
             case BBISHOP:
             case BQUEEN:
             case BKING:
-                if (board[x][y].getPiece().getType() == PieceType.BPAWN ||
-                        board[x][y].getPiece().getType() == PieceType.BROOK ||
-                        board[x][y].getPiece().getType() == PieceType.BBISHOP ||
-                        board[x][y].getPiece().getType() == PieceType.BKNIGHT ||
-                        board[x][y].getPiece().getType() == PieceType.BQUEEN ||
-                        board[x][y].getPiece().getType() == PieceType.BKING) {
+                if (tile.getPiece().getType() == PieceType.BPAWN ||
+                        tile.getPiece().getType() == PieceType.BROOK ||
+                        tile.getPiece().getType() == PieceType.BBISHOP ||
+                        tile.getPiece().getType() == PieceType.BKNIGHT ||
+                        tile.getPiece().getType() == PieceType.BQUEEN ||
+                        tile.getPiece().getType() == PieceType.BKING) {
                     return true;
                 } else {
                     return false;
@@ -344,12 +347,12 @@ public class SetValidMove {
             case WBISHOP:
             case WQUEEN:
             case WKING:
-                if (board[x][y].getPiece().getType() == PieceType.WPAWN ||
-                        board[x][y].getPiece().getType() == PieceType.WROOK ||
-                        board[x][y].getPiece().getType() == PieceType.WBISHOP ||
-                        board[x][y].getPiece().getType() == PieceType.WKNIGHT ||
-                        board[x][y].getPiece().getType() == PieceType.WQUEEN ||
-                        board[x][y].getPiece().getType() == PieceType.WKING) {
+                if (tile.getPiece().getType() == PieceType.WPAWN ||
+                        tile.getPiece().getType() == PieceType.WROOK ||
+                        tile.getPiece().getType() == PieceType.WBISHOP ||
+                        tile.getPiece().getType() == PieceType.WKNIGHT ||
+                        tile.getPiece().getType() == PieceType.WQUEEN ||
+                        tile.getPiece().getType() == PieceType.WKING) {
                     return true;
                 } else {
                     return false;
@@ -359,7 +362,7 @@ public class SetValidMove {
         }
     }
 
-    boolean checkHasOpponentOnPosition(PieceType type, int x, int y, Tile[][] board) {
+    boolean checkHasOpponentOnPosition(PieceType type, Tile tile) {
         switch (type) {
             case BPAWN:
             case BROOK:
@@ -367,12 +370,12 @@ public class SetValidMove {
             case BBISHOP:
             case BQUEEN:
             case BKING:
-                if (board[x][y].getPiece().getType() == PieceType.WPAWN ||
-                        board[x][y].getPiece().getType() == PieceType.WROOK ||
-                        board[x][y].getPiece().getType() == PieceType.WBISHOP ||
-                        board[x][y].getPiece().getType() == PieceType.WKNIGHT ||
-                        board[x][y].getPiece().getType() == PieceType.WQUEEN ||
-                        board[x][y].getPiece().getType() == PieceType.WKING) {
+                if (tile.getPiece().getType() == PieceType.WPAWN ||
+                        tile.getPiece().getType() == PieceType.WROOK ||
+                        tile.getPiece().getType() == PieceType.WBISHOP ||
+                        tile.getPiece().getType() == PieceType.WKNIGHT ||
+                        tile.getPiece().getType() == PieceType.WQUEEN ||
+                        tile.getPiece().getType() == PieceType.WKING) {
                     return true;
                 } else {
                     return false;
@@ -383,12 +386,12 @@ public class SetValidMove {
             case WBISHOP:
             case WQUEEN:
             case WKING:
-                if (board[x][y].getPiece().getType() == PieceType.BPAWN ||
-                        board[x][y].getPiece().getType() == PieceType.BROOK ||
-                        board[x][y].getPiece().getType() == PieceType.BBISHOP ||
-                        board[x][y].getPiece().getType() == PieceType.BKNIGHT ||
-                        board[x][y].getPiece().getType() == PieceType.BQUEEN ||
-                        board[x][y].getPiece().getType() == PieceType.BKING) {
+                if (tile.getPiece().getType() == PieceType.BPAWN ||
+                        tile.getPiece().getType() == PieceType.BROOK ||
+                        tile.getPiece().getType() == PieceType.BBISHOP ||
+                        tile.getPiece().getType() == PieceType.BKNIGHT ||
+                        tile.getPiece().getType() == PieceType.BQUEEN ||
+                        tile.getPiece().getType() == PieceType.BKING) {
                     return true;
                 } else {
                     return false;
