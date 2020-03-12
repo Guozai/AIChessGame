@@ -239,7 +239,6 @@ public class ChessGame extends Application {
                     // Update hasCastled if castled
                     if (newX == 6 && newY == 0 && board[newX][newY].hasPiece() && board[newX][newY].getPiece().getType() == PieceType.BKING &&
                             !board[newX][newY].getPiece().getHasMoved()) {
-//                        System.out.println("set bking hasCastled");
                         board[newX][newY].getPiece().setHasCastled(true);
                     }
                     if (newX == 2 && newY == 0 && board[newX][newY].hasPiece() && board[newX][newY].getPiece().getType() == PieceType.BKING &&
@@ -251,6 +250,22 @@ public class ChessGame extends Application {
                         board[newX][newY].getPiece().setHasCastled(true);
                     }
                     if (newX == 5 && newY == 0 && board[newX][newY].hasPiece() && board[newX][newY].getPiece().getType() == PieceType.BROOK &&
+                            !board[newX][newY].getPiece().getHasMoved()) {
+                        board[newX][newY].getPiece().setHasCastled(true);
+                    }
+                    if (newX == 6 && newY == 7 && board[newX][newY].hasPiece() && board[newX][newY].getPiece().getType() == PieceType.WKING &&
+                            !board[newX][newY].getPiece().getHasMoved()) {
+                        board[newX][newY].getPiece().setHasCastled(true);
+                    }
+                    if (newX == 2 && newY == 7 && board[newX][newY].hasPiece() && board[newX][newY].getPiece().getType() == PieceType.WKING &&
+                            !board[newX][newY].getPiece().getHasMoved()) {
+                        board[newX][newY].getPiece().setHasCastled(true);
+                    }
+                    if (newX == 3 && newY == 7 && board[newX][newY].hasPiece() && board[newX][newY].getPiece().getType() == PieceType.WROOK &&
+                            !board[newX][newY].getPiece().getHasMoved()) {
+                        board[newX][newY].getPiece().setHasCastled(true);
+                    }
+                    if (newX == 5 && newY == 7 && board[newX][newY].hasPiece() && board[newX][newY].getPiece().getType() == PieceType.WROOK &&
                             !board[newX][newY].getPiece().getHasMoved()) {
                         board[newX][newY].getPiece().setHasCastled(true);
                     }

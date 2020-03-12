@@ -343,6 +343,25 @@ public class Logic {
                     }
                     x++;
                 }
+
+                // Castling
+                // Condition 1: white king on original position, ready to castle
+                if (x0 == 0 & y0 == 7 && board[x0][y0].hasPiece() && board[x0][y0].getPiece().getType() == PieceType.WROOK && !board[x0][y0].getPiece().getHasMoved()
+                        && board[x0 + 4][y0].hasPiece() && board[x0 + 4][y0].getPiece().getType() == PieceType.WKING && !board[x0 + 4][y0].getPiece().getHasMoved()
+                        && !board[x0 + 1][y0].hasPiece() && !board[x0 + 2][y0].hasPiece() && !board[x0 + 3][y0].hasPiece()) {
+                    board[x0 + 3][y0].setHighlight(true);
+                }
+                // Condition 2: white king castled, rook can only move to (3, 7)
+                if (x0 == 0 & y0 == 7 && board[x0][y0].hasPiece() && board[x0][y0].getPiece().getType() == PieceType.WROOK && !board[x0][y0].getPiece().getHasMoved()
+                        && !board[x0 + 4][y0].hasPiece() && !board[x0 + 1][y0].hasPiece() && !board[x0 + 3][y0].hasPiece()
+                        && board[x0 + 2][y0].hasPiece() && board[x0 + 2][y0].getPiece().getType() == PieceType.WKING && board[x0 + 2][y0].getPiece().getHasCastled()) {
+                    board[x0 + 3][y0].setHighlight(true);
+                    board[x0 + 1][y0].setHighlight(false);
+                }
+                if (x0 == 7 & y0 == 7 && board[x0][y0].hasPiece() && board[x0][y0].getPiece().getType() == PieceType.WROOK && !board[x0][y0].getPiece().getHasMoved()
+                        && ((board[x0 - 3][y0].hasPiece() && board[x0 - 3][y0].getPiece().getType() == PieceType.WKING && !board[x0 - 3][y0].getPiece().getHasMoved() && !board[x0 - 1][y0].hasPiece() && !board[x0 - 2][y0].hasPiece())
+                        || (!board[x0 - 3][y0].hasPiece() && !board[x0 - 2][y0].hasPiece() && board[x0 - 1][y0].hasPiece() && board[x0 - 1][y0].getPiece().getType() == PieceType.WKING && board[x0 - 1][y0].getPiece().getHasCastled())))
+                    board[x0 - 2][y0].setHighlight(true);
                 break;
             case BKNIGHT:
                 if (withinBorder(x0 - 2, y0 - 1) && !checkHasSameSideOnPosition(PieceType.BKNIGHT, board[x0 - 2][y0 - 1]))
@@ -1293,7 +1312,14 @@ public class Logic {
                 if (withinBorder(x0 + 1, y0 + 1) && !checkHasSameSideOnPosition(PieceType.WKING, board[x0 + 1][y0 + 1]))
                     board[x0 + 1][y0 + 1].setHighlight(true);
                 // Castling
-
+                if (x0 == 4 & y0 == 7 && board[x0][y0].hasPiece() && board[x0][y0].getPiece().getType() == PieceType.WKING && !board[x0][y0].getPiece().getHasMoved()
+                        && ((board[x0 + 3][y0].hasPiece() && board[x0 + 3][y0].getPiece().getType() == PieceType.WROOK && !board[x0 + 3][y0].getPiece().getHasMoved() && !board[x0 + 1][y0].hasPiece() && !board[x0 + 2][y0].hasPiece())
+                        || (!board[x0 + 3][y0].hasPiece() && !board[x0 + 2][y0].hasPiece() && board[x0 + 1][y0].hasPiece() && board[x0 + 1][y0].getPiece().getType() == PieceType.WROOK && board[x0 + 1][y0].getPiece().getHasCastled())))
+                    board[x0 + 2][y0].setHighlight(true);
+                if (x0 == 4 & y0 == 7 && board[x0][y0].hasPiece() && board[x0][y0].getPiece().getType() == PieceType.WKING && !board[x0][y0].getPiece().getHasMoved()
+                        && ((board[x0 - 4][y0].hasPiece() && board[x0 - 4][y0].getPiece().getType() == PieceType.WROOK && !board[x0 - 4][y0].getPiece().getHasMoved() && !board[x0 - 3][y0].hasPiece() && !board[x0 - 2][y0].hasPiece() && !board[x0 - 1][y0].hasPiece())
+                        || (!board[x0 - 4][y0].hasPiece() && !board[x0 - 3][y0].hasPiece() && !board[x0 - 2][y0].hasPiece() && board[x0 - 1][y0].hasPiece() && board[x0 - 1][y0].getPiece().getType() == PieceType.WROOK && board[x0 - 1][y0].getPiece().getHasCastled())))
+                    board[x0 - 2][y0].setHighlight(true);
                 break;
             default:
                 board[x0][y0].setHighlight(true);
