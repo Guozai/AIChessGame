@@ -202,6 +202,7 @@ public class Logic {
                 }
 
                 // Castling
+                // left rook
                 // Condition 1: black king on original position, ready to castle
                 if (x0 == 0 & y0 == 0 && board[x0][y0].hasPiece() && board[x0][y0].getPiece().getType() == PieceType.BROOK && !board[x0][y0].getPiece().getHasMoved()
                         && board[x0 + 4][y0].hasPiece() && board[x0 + 4][y0].getPiece().getType() == PieceType.BKING && !board[x0 + 4][y0].getPiece().getHasMoved()
@@ -214,11 +215,32 @@ public class Logic {
                         && board[x0 + 2][y0].hasPiece() && board[x0 + 2][y0].getPiece().getType() == PieceType.BKING && board[x0 + 2][y0].getPiece().getHasCastled()) {
                     board[x0 + 3][y0].setHighlight(true);
                     board[x0 + 1][y0].setHighlight(false);
+                    board[x0][y0 + 1].setHighlight(false);
+                    board[x0][y0 + 2].setHighlight(false);
+                    board[x0][y0 + 3].setHighlight(false);
+                    board[x0][y0 + 4].setHighlight(false);
+                    board[x0][y0 + 5].setHighlight(false);
+                    board[x0][y0 + 6].setHighlight(false);
+                    board[x0][y0 + 7].setHighlight(false);
+                }
+                // right rook
+                if (x0 == 7 & y0 == 0 && board[x0][y0].hasPiece() && board[x0][y0].getPiece().getType() == PieceType.BROOK && !board[x0][y0].getPiece().getHasMoved()
+                        && board[x0 - 3][y0].hasPiece() && board[x0 - 3][y0].getPiece().getType() == PieceType.BKING && !board[x0 - 3][y0].getPiece().getHasMoved()
+                        && !board[x0 - 1][y0].hasPiece() && !board[x0 - 2][y0].hasPiece()) {
+                    board[x0 - 2][y0].setHighlight(true);
                 }
                 if (x0 == 7 & y0 == 0 && board[x0][y0].hasPiece() && board[x0][y0].getPiece().getType() == PieceType.BROOK && !board[x0][y0].getPiece().getHasMoved()
-                        && ((board[x0 - 3][y0].hasPiece() && board[x0 - 3][y0].getPiece().getType() == PieceType.BKING && !board[x0 - 3][y0].getPiece().getHasMoved() && !board[x0 - 1][y0].hasPiece() && !board[x0 - 2][y0].hasPiece())
-                        || (!board[x0 - 3][y0].hasPiece() && !board[x0 - 2][y0].hasPiece() && board[x0 - 1][y0].hasPiece() && board[x0 - 1][y0].getPiece().getType() == PieceType.BKING && board[x0 - 1][y0].getPiece().getHasCastled())))
+                        && !board[x0 - 3][y0].hasPiece() && !board[x0 - 2][y0].hasPiece()
+                        && board[x0 - 1][y0].hasPiece() && board[x0 - 1][y0].getPiece().getType() == PieceType.BKING && board[x0 - 1][y0].getPiece().getHasCastled()) {
                     board[x0 - 2][y0].setHighlight(true);
+                    board[x0][y0 + 1].setHighlight(false);
+                    board[x0][y0 + 2].setHighlight(false);
+                    board[x0][y0 + 3].setHighlight(false);
+                    board[x0][y0 + 4].setHighlight(false);
+                    board[x0][y0 + 5].setHighlight(false);
+                    board[x0][y0 + 6].setHighlight(false);
+                    board[x0][y0 + 7].setHighlight(false);
+                }
                 break;
             case WROOK:
                 // set y to original rook position, countOpponent to no black pieces count.
@@ -345,6 +367,7 @@ public class Logic {
                 }
 
                 // Castling
+                // left rook
                 // Condition 1: white king on original position, ready to castle
                 if (x0 == 0 & y0 == 7 && board[x0][y0].hasPiece() && board[x0][y0].getPiece().getType() == PieceType.WROOK && !board[x0][y0].getPiece().getHasMoved()
                         && board[x0 + 4][y0].hasPiece() && board[x0 + 4][y0].getPiece().getType() == PieceType.WKING && !board[x0 + 4][y0].getPiece().getHasMoved()
@@ -357,11 +380,32 @@ public class Logic {
                         && board[x0 + 2][y0].hasPiece() && board[x0 + 2][y0].getPiece().getType() == PieceType.WKING && board[x0 + 2][y0].getPiece().getHasCastled()) {
                     board[x0 + 3][y0].setHighlight(true);
                     board[x0 + 1][y0].setHighlight(false);
+                    board[x0][y0 - 1].setHighlight(false);
+                    board[x0][y0 - 2].setHighlight(false);
+                    board[x0][y0 - 3].setHighlight(false);
+                    board[x0][y0 - 4].setHighlight(false);
+                    board[x0][y0 - 5].setHighlight(false);
+                    board[x0][y0 - 6].setHighlight(false);
+                    board[x0][y0 - 7].setHighlight(false);
+                }
+                // right rook
+                if (x0 == 7 & y0 == 7 && board[x0][y0].hasPiece() && board[x0][y0].getPiece().getType() == PieceType.WROOK && !board[x0][y0].getPiece().getHasMoved()
+                        && board[x0 - 3][y0].hasPiece() && board[x0 - 3][y0].getPiece().getType() == PieceType.WKING && !board[x0 - 3][y0].getPiece().getHasMoved()
+                        && !board[x0 - 1][y0].hasPiece() && !board[x0 - 2][y0].hasPiece()) {
+                    board[x0 - 2][y0].setHighlight(true);
                 }
                 if (x0 == 7 & y0 == 7 && board[x0][y0].hasPiece() && board[x0][y0].getPiece().getType() == PieceType.WROOK && !board[x0][y0].getPiece().getHasMoved()
-                        && ((board[x0 - 3][y0].hasPiece() && board[x0 - 3][y0].getPiece().getType() == PieceType.WKING && !board[x0 - 3][y0].getPiece().getHasMoved() && !board[x0 - 1][y0].hasPiece() && !board[x0 - 2][y0].hasPiece())
-                        || (!board[x0 - 3][y0].hasPiece() && !board[x0 - 2][y0].hasPiece() && board[x0 - 1][y0].hasPiece() && board[x0 - 1][y0].getPiece().getType() == PieceType.WKING && board[x0 - 1][y0].getPiece().getHasCastled())))
+                        && !board[x0 - 3][y0].hasPiece() && !board[x0 - 2][y0].hasPiece()
+                        && board[x0 - 1][y0].hasPiece() && board[x0 - 1][y0].getPiece().getType() == PieceType.WKING && board[x0 - 1][y0].getPiece().getHasCastled()) {
                     board[x0 - 2][y0].setHighlight(true);
+                    board[x0][y0 - 1].setHighlight(false);
+                    board[x0][y0 - 2].setHighlight(false);
+                    board[x0][y0 - 3].setHighlight(false);
+                    board[x0][y0 - 4].setHighlight(false);
+                    board[x0][y0 - 5].setHighlight(false);
+                    board[x0][y0 - 6].setHighlight(false);
+                    board[x0][y0 - 7].setHighlight(false);
+                }
                 break;
             case BKNIGHT:
                 if (withinBorder(x0 - 2, y0 - 1) && !checkHasSameSideOnPosition(PieceType.BKNIGHT, board[x0 - 2][y0 - 1]))
@@ -1285,14 +1329,42 @@ public class Logic {
                 if (withinBorder(x0 + 1, y0 + 1) && !checkHasSameSideOnPosition(PieceType.BKING, board[x0 + 1][y0 + 1]))
                     board[x0 + 1][y0 + 1].setHighlight(true);
                 // Castling
+                // If black king ready to castle right
                 if (x0 == 4 & y0 == 0 && board[x0][y0].hasPiece() && board[x0][y0].getPiece().getType() == PieceType.BKING && !board[x0][y0].getPiece().getHasMoved()
-                        && ((board[x0 + 3][y0].hasPiece() && board[x0 + 3][y0].getPiece().getType() == PieceType.BROOK && !board[x0 + 3][y0].getPiece().getHasMoved() && !board[x0 + 1][y0].hasPiece() && !board[x0 + 2][y0].hasPiece())
-                        || (!board[x0 + 3][y0].hasPiece() && !board[x0 + 2][y0].hasPiece() && board[x0 + 1][y0].hasPiece() && board[x0 + 1][y0].getPiece().getType() == PieceType.BROOK && board[x0 + 1][y0].getPiece().getHasCastled())))
+                        && board[x0 + 3][y0].hasPiece() && board[x0 + 3][y0].getPiece().getType() == PieceType.BROOK && !board[x0 + 3][y0].getPiece().getHasMoved()
+                        && !board[x0 + 1][y0].hasPiece() && !board[x0 + 2][y0].hasPiece()) {
                     board[x0 + 2][y0].setHighlight(true);
+                }
+                // If right rook has castled, black king can only move to (6, 0)
                 if (x0 == 4 & y0 == 0 && board[x0][y0].hasPiece() && board[x0][y0].getPiece().getType() == PieceType.BKING && !board[x0][y0].getPiece().getHasMoved()
-                        && ((board[x0 - 4][y0].hasPiece() && board[x0 - 4][y0].getPiece().getType() == PieceType.BROOK && !board[x0 - 4][y0].getPiece().getHasMoved() && !board[x0 - 3][y0].hasPiece() && !board[x0 - 2][y0].hasPiece() && !board[x0 - 1][y0].hasPiece())
-                        || (!board[x0 - 4][y0].hasPiece() && !board[x0 - 3][y0].hasPiece() && !board[x0 - 2][y0].hasPiece() && board[x0 - 1][y0].hasPiece() && board[x0 - 1][y0].getPiece().getType() == PieceType.BROOK && board[x0 - 1][y0].getPiece().getHasCastled())))
+                        && !board[x0 + 3][y0].hasPiece() && !board[x0 + 2][y0].hasPiece()
+                        && board[x0 + 1][y0].hasPiece() && board[x0 + 1][y0].getPiece().getType() == PieceType.BROOK && board[x0 + 1][y0].getPiece().getHasCastled()) {
+                    board[x0 + 2][y0].setHighlight(true);
+                    board[x0 - 2][y0].setHighlight(false);
+                    board[x0 - 1][y0].setHighlight(false);
+                    board[x0 + 1][y0].setHighlight(false);
+                    board[x0 - 1][y0 + 1].setHighlight(false);
+                    board[x0][y0 + 1].setHighlight(false);
+                    board[x0 + 1][y0 + 1].setHighlight(false);
+                }
+                // If black king ready to castle left
+                if (x0 == 4 & y0 == 0 && board[x0][y0].hasPiece() && board[x0][y0].getPiece().getType() == PieceType.BKING && !board[x0][y0].getPiece().getHasMoved()
+                        && board[x0 - 4][y0].hasPiece() && board[x0 - 4][y0].getPiece().getType() == PieceType.BROOK && !board[x0 - 4][y0].getPiece().getHasMoved()
+                        && !board[x0 - 3][y0].hasPiece() && !board[x0 - 2][y0].hasPiece() && !board[x0 - 1][y0].hasPiece()) {
                     board[x0 - 2][y0].setHighlight(true);
+                }
+                // If left rook has castled, black king can only move to (2, 0)
+                if (x0 == 4 & y0 == 0 && board[x0][y0].hasPiece() && board[x0][y0].getPiece().getType() == PieceType.BKING && !board[x0][y0].getPiece().getHasMoved()
+                        && !board[x0 - 4][y0].hasPiece() && !board[x0 - 3][y0].hasPiece() && !board[x0 - 2][y0].hasPiece()
+                        && board[x0 - 1][y0].hasPiece() && board[x0 - 1][y0].getPiece().getType() == PieceType.BROOK && board[x0 - 1][y0].getPiece().getHasCastled()) {
+                    board[x0 - 2][y0].setHighlight(true);
+                    board[x0 + 2][y0].setHighlight(false);
+                    board[x0 - 1][y0].setHighlight(false);
+                    board[x0 + 1][y0].setHighlight(false);
+                    board[x0 - 1][y0 + 1].setHighlight(false);
+                    board[x0][y0 + 1].setHighlight(false);
+                    board[x0 + 1][y0 + 1].setHighlight(false);
+                }
                 break;
             case WKING:
                 if (withinBorder(x0 - 1, y0 - 1) && !checkHasSameSideOnPosition(PieceType.WKING, board[x0 - 1][y0 - 1]))
@@ -1312,14 +1384,40 @@ public class Logic {
                 if (withinBorder(x0 + 1, y0 + 1) && !checkHasSameSideOnPosition(PieceType.WKING, board[x0 + 1][y0 + 1]))
                     board[x0 + 1][y0 + 1].setHighlight(true);
                 // Castling
+                // If white king ready to castle right
                 if (x0 == 4 & y0 == 7 && board[x0][y0].hasPiece() && board[x0][y0].getPiece().getType() == PieceType.WKING && !board[x0][y0].getPiece().getHasMoved()
-                        && ((board[x0 + 3][y0].hasPiece() && board[x0 + 3][y0].getPiece().getType() == PieceType.WROOK && !board[x0 + 3][y0].getPiece().getHasMoved() && !board[x0 + 1][y0].hasPiece() && !board[x0 + 2][y0].hasPiece())
-                        || (!board[x0 + 3][y0].hasPiece() && !board[x0 + 2][y0].hasPiece() && board[x0 + 1][y0].hasPiece() && board[x0 + 1][y0].getPiece().getType() == PieceType.WROOK && board[x0 + 1][y0].getPiece().getHasCastled())))
+                        && board[x0 + 3][y0].hasPiece() && board[x0 + 3][y0].getPiece().getType() == PieceType.WROOK && !board[x0 + 3][y0].getPiece().getHasMoved()
+                        && !board[x0 + 1][y0].hasPiece() && !board[x0 + 2][y0].hasPiece())
                     board[x0 + 2][y0].setHighlight(true);
+                // If right rook has castled, white king can only move to (6, 7)
                 if (x0 == 4 & y0 == 7 && board[x0][y0].hasPiece() && board[x0][y0].getPiece().getType() == PieceType.WKING && !board[x0][y0].getPiece().getHasMoved()
-                        && ((board[x0 - 4][y0].hasPiece() && board[x0 - 4][y0].getPiece().getType() == PieceType.WROOK && !board[x0 - 4][y0].getPiece().getHasMoved() && !board[x0 - 3][y0].hasPiece() && !board[x0 - 2][y0].hasPiece() && !board[x0 - 1][y0].hasPiece())
-                        || (!board[x0 - 4][y0].hasPiece() && !board[x0 - 3][y0].hasPiece() && !board[x0 - 2][y0].hasPiece() && board[x0 - 1][y0].hasPiece() && board[x0 - 1][y0].getPiece().getType() == PieceType.WROOK && board[x0 - 1][y0].getPiece().getHasCastled())))
+                        && !board[x0 + 3][y0].hasPiece() && !board[x0 + 2][y0].hasPiece()
+                        && board[x0 + 1][y0].hasPiece() && board[x0 + 1][y0].getPiece().getType() == PieceType.WROOK && board[x0 + 1][y0].getPiece().getHasCastled()) {
+                    board[x0 + 2][y0].setHighlight(true);
+                    board[x0 - 2][y0].setHighlight(false);
+                    board[x0 - 1][y0].setHighlight(false);
+                    board[x0 + 1][y0].setHighlight(false);
+                    board[x0 - 1][y0 - 1].setHighlight(false);
+                    board[x0][y0 - 1].setHighlight(false);
+                    board[x0 + 1][y0 - 1].setHighlight(false);
+                }
+                // If white king ready to castle left
+                if (x0 == 4 & y0 == 7 && board[x0][y0].hasPiece() && board[x0][y0].getPiece().getType() == PieceType.WKING && !board[x0][y0].getPiece().getHasMoved()
+                        && board[x0 - 4][y0].hasPiece() && board[x0 - 4][y0].getPiece().getType() == PieceType.WROOK && !board[x0 - 4][y0].getPiece().getHasMoved()
+                        && !board[x0 - 3][y0].hasPiece() && !board[x0 - 2][y0].hasPiece() && !board[x0 - 1][y0].hasPiece())
                     board[x0 - 2][y0].setHighlight(true);
+                // If left rook has castled, white king can only move to (2, 7)
+                if (x0 == 4 & y0 == 7 && board[x0][y0].hasPiece() && board[x0][y0].getPiece().getType() == PieceType.WKING && !board[x0][y0].getPiece().getHasMoved()
+                        && !board[x0 - 4][y0].hasPiece() && !board[x0 - 3][y0].hasPiece() && !board[x0 - 2][y0].hasPiece()
+                        && board[x0 - 1][y0].hasPiece() && board[x0 - 1][y0].getPiece().getType() == PieceType.WROOK && board[x0 - 1][y0].getPiece().getHasCastled()) {
+                    board[x0 - 2][y0].setHighlight(true);
+                    board[x0 + 2][y0].setHighlight(false);
+                    board[x0 - 1][y0].setHighlight(false);
+                    board[x0 + 1][y0].setHighlight(false);
+                    board[x0 - 1][y0 - 1].setHighlight(false);
+                    board[x0][y0 - 1].setHighlight(false);
+                    board[x0 + 1][y0 - 1].setHighlight(false);
+                }
                 break;
             default:
                 board[x0][y0].setHighlight(true);
