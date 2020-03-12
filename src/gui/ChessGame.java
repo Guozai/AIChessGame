@@ -235,8 +235,27 @@ public class ChessGame extends Application {
                 board[x0][y0].setPiece(null);
                 board[newX][newY].setPiece(piece);
                 // Update piece property hasMoved.
-                if (newX != x0 || newY != y0)
-                    piece.setHasMoved(true);
+                if (newX != x0 || newY != y0) {
+                    // Update hasCastled if castled
+                    if (newX == 6 && newY == 0 && board[newX][newY].hasPiece() && board[newX][newY].getPiece().getType() == PieceType.BKING &&
+                            !board[newX][newY].getPiece().getHasMoved()) {
+//                        System.out.println("set bking hasCastled");
+                        board[newX][newY].getPiece().setHasCastled(true);
+                    }
+                    if (newX == 2 && newY == 0 && board[newX][newY].hasPiece() && board[newX][newY].getPiece().getType() == PieceType.BKING &&
+                            !board[newX][newY].getPiece().getHasMoved()) {
+                        board[newX][newY].getPiece().setHasCastled(true);
+                    }
+                    if (newX == 3 && newY == 0 && board[newX][newY].hasPiece() && board[newX][newY].getPiece().getType() == PieceType.BROOK &&
+                            !board[newX][newY].getPiece().getHasMoved()) {
+                        board[newX][newY].getPiece().setHasCastled(true);
+                    }
+                    if (newX == 5 && newY == 0 && board[newX][newY].hasPiece() && board[newX][newY].getPiece().getType() == PieceType.BROOK &&
+                            !board[newX][newY].getPiece().getHasMoved()) {
+                        board[newX][newY].getPiece().setHasCastled(true);
+                    }
+                    board[newX][newY].getPiece().setHasMoved(true);
+                }
                 // Update logic board
                 logic.setBoard(board);
                 /* Save the new position of x, y */
