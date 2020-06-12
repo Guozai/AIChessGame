@@ -5,9 +5,13 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
@@ -16,6 +20,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import logic.Logic;
 
@@ -34,7 +39,25 @@ public class ChessGame extends Application {
     private final Group tileGroup = new Group();
     private final Group pieceGroup = new Group();
 
+    // the private logic chess board for class logic
     private Logic logic = new Logic();
+
+    // the private PieceType value to store the pawn promotion type
+    private PieceType typePromote;
+    private boolean hasChosenPromotionTypeB = false;
+    private boolean hasChosenPromotionTypeW = false;
+
+    // load the images
+    // Black pieces
+    final Image imgBRook = new Image(ChessGame.class.getResourceAsStream("Chess_rdt60.png"));
+    final Image imgBBishop = new Image(ChessGame.class.getResourceAsStream("Chess_bdt60.png"));
+    final Image imgBKnightL = new Image(ChessGame.class.getResourceAsStream("Chess_ndt60.png"));
+    final Image imgBQueen = new Image(ChessGame.class.getResourceAsStream("Chess_qdt60.png"));
+    // White pieces
+    final Image imgWRook = new Image(ChessGame.class.getResourceAsStream("Chess_rlt60.png"));
+    final Image imgWBishop = new Image(ChessGame.class.getResourceAsStream("Chess_blt60.png"));
+    final Image imgWKnightL = new Image(ChessGame.class.getResourceAsStream("Chess_nlt60.png"));
+    final Image imgWQueen = new Image(ChessGame.class.getResourceAsStream("Chess_qlt60.png"));
 
     private Parent createContent() {
         BorderPane chess = new BorderPane();
@@ -171,15 +194,89 @@ public class ChessGame extends Application {
         return (int)(pixel + TILE_SIZE /2) / TILE_SIZE;
     }
 
-    Stage window;
+    Stage main, popup;
     Scene gameScene;
+    Scene popupBScene, popupWScene;
     @Override
     public void start(Stage primaryStage) throws Exception {
-        window = primaryStage;
+        // Create popup scene content
+        VBox vBoxB = new VBox();
+        Button btnBQueen = new Button();
+        btnBQueen.setGraphic(new ImageView(imgBQueen));
+        btnBQueen.setOnAction(e -> {
+            typePromote = PieceType.BQUEEN;
+            hasChosenPromotionTypeB = true;
+            popup.close();
+        });
+        Button btnBBishop = new Button();
+        btnBBishop.setGraphic(new ImageView(imgBBishop));
+        btnBBishop.setOnAction(e -> {
+            typePromote = PieceType.BBISHOP;
+            hasChosenPromotionTypeB = true;
+            popup.close();
+        });
+        Button btnBKnight = new Button();
+        btnBKnight.setGraphic(new ImageView(imgBKnightL));
+        btnBKnight.setOnAction(e -> {
+            typePromote = PieceType.BKNIGHT;
+            hasChosenPromotionTypeB = true;
+            popup.close();
+        });
+        Button btnBRook = new Button();
+        btnBRook.setGraphic(new ImageView(imgBRook));
+        btnBRook.setOnAction(e -> {
+            typePromote = PieceType.BROOK;
+            hasChosenPromotionTypeB = true;
+            popup.close();
+        });
+        vBoxB.setSpacing(10);
+        vBoxB.getChildren().addAll(btnBQueen, btnBBishop, btnBKnight, btnBRook);
+        popupBScene = new Scene(vBoxB, 78, 310);
+
+        VBox vBoxW = new VBox();
+        Button btnWQueen = new Button();
+        btnWQueen.setGraphic(new ImageView(imgWQueen));
+        btnWQueen.setOnAction(e -> {
+            typePromote = PieceType.WQUEEN;
+            hasChosenPromotionTypeW = true;
+            popup.close();
+        });
+        Button btnWBishop = new Button();
+        btnWBishop.setGraphic(new ImageView(imgWBishop));
+        btnWBishop.setOnAction(e -> {
+            typePromote = PieceType.WBISHOP;
+            hasChosenPromotionTypeW = true;
+            popup.close();
+        });
+        Button btnWKnight = new Button();
+        btnWKnight.setGraphic(new ImageView(imgWKnightL));
+        btnWKnight.setOnAction(e -> {
+            typePromote = PieceType.WKNIGHT;
+            hasChosenPromotionTypeW = true;
+            popup.close();
+        });
+        Button btnWRook = new Button();
+        btnWRook.setGraphic(new ImageView(imgWRook));
+        btnWRook.setOnAction(e -> {
+            typePromote = PieceType.WROOK;
+            hasChosenPromotionTypeW = true;
+            popup.close();
+        });
+        vBoxW.setSpacing(10);
+        vBoxW.getChildren().addAll(btnWQueen, btnWBishop, btnWKnight, btnWRook);
+        popupWScene = new Scene(vBoxW, 78, 310);
+
+        // initial popup stage
+        popup = new Stage();
+        popup.setScene(popupBScene);
+        popup.initModality(Modality.APPLICATION_MODAL);
+
+        main = primaryStage;
         gameScene = new Scene(createContent());
-        window.setTitle("Chess Game");
-        window.setScene(gameScene);
-        window.show();
+
+        main.setTitle("Chess Game");
+        main.setScene(gameScene);
+        main.show();
     }
 
     private int x0, y0;
@@ -234,8 +331,33 @@ public class ChessGame extends Application {
                 piece.move(newX, newY);
                 board[x0][y0].setPiece(null);
                 board[newX][newY].setPiece(piece);
-                // Update piece property hasMoved.
+
                 if (newX != x0 || newY != y0) {
+                    // Pawn promotion
+                    if (board[newX][newY].getPiece().getType() == PieceType.BPAWN && newY == 7) {
+                        popup.setScene(popupBScene);
+                        popup.showAndWait();
+
+                        // if promotion type is not selected on the popup scene, set promotion type to BQUEEN
+                        if (!hasChosenPromotionTypeB)
+                            typePromote = PieceType.BQUEEN;
+                        board[newX][newY].getPiece().setType(typePromote);
+                        board[newX][newY].getPiece().setImage(board[newX][newY].getPiece(), typePromote);
+                        hasChosenPromotionTypeB = false;
+                    }
+
+                    if (board[newX][newY].getPiece().getType() == PieceType.WPAWN && newY == 0) {
+                        popup.setScene(popupWScene);
+                        popup.showAndWait();
+
+                        // if promotion type is not selected on the popup scene, set promotion type to WQUEEN
+                        if (!hasChosenPromotionTypeW)
+                            typePromote = PieceType.WQUEEN;
+                        board[newX][newY].getPiece().setType(typePromote);
+                        board[newX][newY].getPiece().setImage(board[newX][newY].getPiece(), typePromote);
+                        hasChosenPromotionTypeW = false;
+                    }
+
                     // Update hasCastled if castled
                     if (newX == 6 && newY == 0 && board[newX][newY].hasPiece() && board[newX][newY].getPiece().getType() == PieceType.BKING &&
                             !board[newX][newY].getPiece().getHasMoved()) {
@@ -269,6 +391,7 @@ public class ChessGame extends Application {
                             !board[newX][newY].getPiece().getHasMoved()) {
                         board[newX][newY].getPiece().setHasCastled(true);
                     }
+                    // Update piece property hasMoved.
                     board[newX][newY].getPiece().setHasMoved(true);
                 }
                 // Update logic board
