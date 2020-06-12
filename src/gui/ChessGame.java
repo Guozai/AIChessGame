@@ -290,7 +290,8 @@ public class ChessGame extends Application {
 
             int tempX, tempY;
 
-            logic.setValidMove(type, x0, y0);
+            // get the piece type from board in case of pawn promotion
+            logic.setValidMove(board[x0][y0].getPiece().getType(), x0, y0);
             board = logic.getBoard();
             for (tempX = 0; tempX < 8; tempX++) {
                 for (tempY = 0; tempY < 8; tempY++) {
