@@ -1,17 +1,16 @@
 package gui;
 
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.*;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.*;
 import javafx.scene.control.Button;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
@@ -46,6 +45,8 @@ public class ChessGame extends Application {
     private PieceType typePromote;
     private boolean hasChosenPromotionTypeB = false;
     private boolean hasChosenPromotionTypeW = false;
+
+    private boolean isGameFinished = false;
 
     // load the images
     // Black pieces
@@ -197,8 +198,11 @@ public class ChessGame extends Application {
     Stage main, popup;
     Scene gameScene;
     Scene popupBScene, popupWScene;
+    // Popup scene to notify game finish and which player wins
+    Scene winBScene, winWScene;
     @Override
     public void start(Stage primaryStage) throws Exception {
+
         // Create popup scene content
         VBox vBoxB = new VBox();
         Button btnBQueen = new Button();
@@ -266,6 +270,53 @@ public class ChessGame extends Application {
         vBoxW.getChildren().addAll(btnWQueen, btnWBishop, btnWKnight, btnWRook);
         popupWScene = new Scene(vBoxW, 78, 310);
 
+
+        // Create winScene content
+        GridPane blackGP = new GridPane();
+        blackGP.setAlignment(Pos.CENTER);
+        blackGP.setHgap(10);
+        blackGP.setVgap(1);
+        blackGP.setPadding(new Insets(25, 25, 25, 25));
+
+        Label winNoticeB = new Label("Black Side Wins!");
+        blackGP.add(winNoticeB, 3, 8);
+
+        Button btnOK = new Button("OK");
+        btnOK.setOnAction(e -> {
+            popup.close();
+            main.close();
+        });
+        HBox hbBtnB = new HBox(10);
+        hbBtnB.setAlignment(Pos.CENTER);
+        hbBtnB.getChildren().add(btnOK);
+        blackGP.add(hbBtnB, 3, 11);
+
+        blackGP.setGridLinesVisible(false);
+        winBScene = new Scene(blackGP, 400, 300);
+
+        GridPane whiteGP = new GridPane();
+        whiteGP.setAlignment(Pos.CENTER);
+        whiteGP.setHgap(10);
+        whiteGP.setVgap(1);
+        whiteGP.setPadding(new Insets(25, 25, 25, 25));
+
+        Label winNoticeW = new Label("White Side Wins!");
+        whiteGP.add(winNoticeW, 3, 8);
+
+        Button btnOK1 = new Button("OK");
+        btnOK1.setOnAction(e -> {
+            popup.close();
+            main.close();
+        });
+        HBox hbBtnW = new HBox(10);
+        hbBtnW.setAlignment(Pos.CENTER);
+        hbBtnW.getChildren().add(btnOK1);
+        whiteGP.add(hbBtnW, 3, 11);
+
+        whiteGP.setGridLinesVisible(false);
+        winWScene = new Scene(whiteGP, 400, 300);
+
+
         // initial popup stage
         popup = new Stage();
         popup.setScene(popupBScene);
@@ -285,121 +336,153 @@ public class ChessGame extends Application {
         Piece piece = new Piece(type, x, y);
 
         piece.setOnMousePressed(e -> {
-            x0 = toBoard(piece.getOldX());
-            y0 = toBoard(piece.getOldY());
+            if (!isGameFinished) {
+                x0 = toBoard(piece.getOldX());
+                y0 = toBoard(piece.getOldY());
 
-            int tempX, tempY;
+                int tempX, tempY;
 
-            // get the piece type from board in case of pawn promotion
-            logic.setValidMove(board[x0][y0].getPiece().getType(), x0, y0);
-            board = logic.getBoard();
-            for (tempX = 0; tempX < 8; tempX++) {
-                for (tempY = 0; tempY < 8; tempY++) {
-                    if (board[tempX][tempY].getHighlight()) {
-                        highlightTile(tempX, tempY);
+                // get the piece type from board in case of pawn promotion
+                logic.setValidMove(board[x0][y0].getPiece().getType(), x0, y0);
+                board = logic.getBoard();
+                for (tempX = 0; tempX < 8; tempX++) {
+                    for (tempY = 0; tempY < 8; tempY++) {
+                        if (board[tempX][tempY].getHighlight()) {
+                            highlightTile(tempX, tempY);
+                        }
                     }
                 }
             }
         });
 
         piece.setOnMouseDragged(e -> {
-            piece.relocate(e.getSceneX() - TILE_SIZE/2, e.getSceneY() - TILE_SIZE);
+            if (!isGameFinished)
+                piece.relocate(e.getSceneX() - TILE_SIZE/2, e.getSceneY() - TILE_SIZE);
         });
 
         piece.setOnMouseReleased(e -> {
-            int newX = toBoard(piece.getLayoutX());
-            int newY = toBoard(piece.getLayoutY());
-            int tempX, tempY;
-            boolean isMovable = true;
+            if (!isGameFinished) {
+                int newX = toBoard(piece.getLayoutX());
+                int newY = toBoard(piece.getLayoutY());
+                int tempX, tempY;
+                boolean isMovable = true;
 
-            for (tempX = 0; tempX < 8; tempX++) {
-                for (tempY = 0; tempY < 8; tempY++) {
-                    if (board[tempX][tempY].getHighlight()) {
-                        stopHighlightTile(tempX, tempY);
+                for (tempX = 0; tempX < 8; tempX++) {
+                    for (tempY = 0; tempY < 8; tempY++) {
+                        if (board[tempX][tempY].getHighlight()) {
+                            stopHighlightTile(tempX, tempY);
+                        }
                     }
                 }
-            }
 
-            if (isMovable == false) {
-                piece.abortMove();
-            } else if (isMovable == true) {
-                if (newX == x0 && newY == y0) {
+                if (isMovable == false) {
                     piece.abortMove();
-                } else if (board[newX][newY].hasPiece() == true) {
-                    pieceGroup.getChildren().remove(board[newX][newY].getPiece());
-                    board[newX][newY].setPiece(null);
+                } else if (isMovable == true) {
+                    if (newX == x0 && newY == y0) {
+                        piece.abortMove();
+                    } else if (board[newX][newY].hasPiece() == true) {
+
+                        // Check if game is finished.
+                        if (board[newX][newY].getPiece().getType() == PieceType.BKING
+                                && (board[x0][y0].getPiece().getType() == PieceType.WPAWN
+                                || board[x0][y0].getPiece().getType() == PieceType.WROOK
+                                || board[x0][y0].getPiece().getType() == PieceType.WBISHOP
+                                || board[x0][y0].getPiece().getType() == PieceType.WKNIGHT
+                                || board[x0][y0].getPiece().getType() == PieceType.WQUEEN
+                                || board[x0][y0].getPiece().getType() == PieceType.WKING)) {
+                            // Pop up window to show game is finished
+                            isGameFinished = true;
+                            popup.setScene(winWScene);
+                            popup.showAndWait();
+                        }
+                        if (board[newX][newY].getPiece().getType() == PieceType.WKING
+                                && (board[x0][y0].getPiece().getType() == PieceType.BPAWN
+                                || board[x0][y0].getPiece().getType() == PieceType.BROOK
+                                || board[x0][y0].getPiece().getType() == PieceType.BBISHOP
+                                || board[x0][y0].getPiece().getType() == PieceType.BKNIGHT
+                                || board[x0][y0].getPiece().getType() == PieceType.BQUEEN
+                                || board[x0][y0].getPiece().getType() == PieceType.BKING)) {
+                            // Pop up window to show game is finished
+                            isGameFinished = true;
+                            popup.setScene(winBScene);
+                            popup.showAndWait();
+                        }
+
+                        pieceGroup.getChildren().remove(board[newX][newY].getPiece());
+                        board[newX][newY].setPiece(null);
+                    }
+                    piece.move(newX, newY);
+                    board[x0][y0].setPiece(null);
+                    board[newX][newY].setPiece(piece);
+
+                    if (newX != x0 || newY != y0) {
+                        // Pawn promotion
+                        if (board[newX][newY].getPiece().getType() == PieceType.BPAWN && newY == 7) {
+                            popup.setScene(popupBScene);
+                            popup.showAndWait();
+
+                            // if promotion type is not selected on the popup scene, set promotion type to BQUEEN
+                            if (!hasChosenPromotionTypeB)
+                                typePromote = PieceType.BQUEEN;
+                            board[newX][newY].getPiece().setType(typePromote);
+                            board[newX][newY].getPiece().setImage(board[newX][newY].getPiece(), typePromote);
+                            hasChosenPromotionTypeB = false;
+                        }
+
+                        if (board[newX][newY].getPiece().getType() == PieceType.WPAWN && newY == 0) {
+                            popup.setScene(popupWScene);
+                            popup.showAndWait();
+
+                            // if promotion type is not selected on the popup scene, set promotion type to WQUEEN
+                            if (!hasChosenPromotionTypeW)
+                                typePromote = PieceType.WQUEEN;
+                            board[newX][newY].getPiece().setType(typePromote);
+                            board[newX][newY].getPiece().setImage(board[newX][newY].getPiece(), typePromote);
+                            hasChosenPromotionTypeW = false;
+                        }
+
+                        // Update hasCastled if castled
+                        if (newX == 6 && newY == 0 && board[newX][newY].hasPiece() && board[newX][newY].getPiece().getType() == PieceType.BKING &&
+                                !board[newX][newY].getPiece().getHasMoved()) {
+                            board[newX][newY].getPiece().setHasCastled(true);
+                        }
+                        if (newX == 2 && newY == 0 && board[newX][newY].hasPiece() && board[newX][newY].getPiece().getType() == PieceType.BKING &&
+                                !board[newX][newY].getPiece().getHasMoved()) {
+                            board[newX][newY].getPiece().setHasCastled(true);
+                        }
+                        if (newX == 3 && newY == 0 && board[newX][newY].hasPiece() && board[newX][newY].getPiece().getType() == PieceType.BROOK &&
+                                !board[newX][newY].getPiece().getHasMoved()) {
+                            board[newX][newY].getPiece().setHasCastled(true);
+                        }
+                        if (newX == 5 && newY == 0 && board[newX][newY].hasPiece() && board[newX][newY].getPiece().getType() == PieceType.BROOK &&
+                                !board[newX][newY].getPiece().getHasMoved()) {
+                            board[newX][newY].getPiece().setHasCastled(true);
+                        }
+                        if (newX == 6 && newY == 7 && board[newX][newY].hasPiece() && board[newX][newY].getPiece().getType() == PieceType.WKING &&
+                                !board[newX][newY].getPiece().getHasMoved()) {
+                            board[newX][newY].getPiece().setHasCastled(true);
+                        }
+                        if (newX == 2 && newY == 7 && board[newX][newY].hasPiece() && board[newX][newY].getPiece().getType() == PieceType.WKING &&
+                                !board[newX][newY].getPiece().getHasMoved()) {
+                            board[newX][newY].getPiece().setHasCastled(true);
+                        }
+                        if (newX == 3 && newY == 7 && board[newX][newY].hasPiece() && board[newX][newY].getPiece().getType() == PieceType.WROOK &&
+                                !board[newX][newY].getPiece().getHasMoved()) {
+                            board[newX][newY].getPiece().setHasCastled(true);
+                        }
+                        if (newX == 5 && newY == 7 && board[newX][newY].hasPiece() && board[newX][newY].getPiece().getType() == PieceType.WROOK &&
+                                !board[newX][newY].getPiece().getHasMoved()) {
+                            board[newX][newY].getPiece().setHasCastled(true);
+                        }
+                        // Update piece property hasMoved.
+                        board[newX][newY].getPiece().setHasMoved(true);
+                    }
+                    // Update logic board
+                    logic.setBoard(board);
+                    /* Save the new position of x, y */
+                    x0 = newX;
+                    y0 = newY;
                 }
-                piece.move(newX, newY);
-                board[x0][y0].setPiece(null);
-                board[newX][newY].setPiece(piece);
-
-                if (newX != x0 || newY != y0) {
-                    // Pawn promotion
-                    if (board[newX][newY].getPiece().getType() == PieceType.BPAWN && newY == 7) {
-                        popup.setScene(popupBScene);
-                        popup.showAndWait();
-
-                        // if promotion type is not selected on the popup scene, set promotion type to BQUEEN
-                        if (!hasChosenPromotionTypeB)
-                            typePromote = PieceType.BQUEEN;
-                        board[newX][newY].getPiece().setType(typePromote);
-                        board[newX][newY].getPiece().setImage(board[newX][newY].getPiece(), typePromote);
-                        hasChosenPromotionTypeB = false;
-                    }
-
-                    if (board[newX][newY].getPiece().getType() == PieceType.WPAWN && newY == 0) {
-                        popup.setScene(popupWScene);
-                        popup.showAndWait();
-
-                        // if promotion type is not selected on the popup scene, set promotion type to WQUEEN
-                        if (!hasChosenPromotionTypeW)
-                            typePromote = PieceType.WQUEEN;
-                        board[newX][newY].getPiece().setType(typePromote);
-                        board[newX][newY].getPiece().setImage(board[newX][newY].getPiece(), typePromote);
-                        hasChosenPromotionTypeW = false;
-                    }
-
-                    // Update hasCastled if castled
-                    if (newX == 6 && newY == 0 && board[newX][newY].hasPiece() && board[newX][newY].getPiece().getType() == PieceType.BKING &&
-                            !board[newX][newY].getPiece().getHasMoved()) {
-                        board[newX][newY].getPiece().setHasCastled(true);
-                    }
-                    if (newX == 2 && newY == 0 && board[newX][newY].hasPiece() && board[newX][newY].getPiece().getType() == PieceType.BKING &&
-                            !board[newX][newY].getPiece().getHasMoved()) {
-                        board[newX][newY].getPiece().setHasCastled(true);
-                    }
-                    if (newX == 3 && newY == 0 && board[newX][newY].hasPiece() && board[newX][newY].getPiece().getType() == PieceType.BROOK &&
-                            !board[newX][newY].getPiece().getHasMoved()) {
-                        board[newX][newY].getPiece().setHasCastled(true);
-                    }
-                    if (newX == 5 && newY == 0 && board[newX][newY].hasPiece() && board[newX][newY].getPiece().getType() == PieceType.BROOK &&
-                            !board[newX][newY].getPiece().getHasMoved()) {
-                        board[newX][newY].getPiece().setHasCastled(true);
-                    }
-                    if (newX == 6 && newY == 7 && board[newX][newY].hasPiece() && board[newX][newY].getPiece().getType() == PieceType.WKING &&
-                            !board[newX][newY].getPiece().getHasMoved()) {
-                        board[newX][newY].getPiece().setHasCastled(true);
-                    }
-                    if (newX == 2 && newY == 7 && board[newX][newY].hasPiece() && board[newX][newY].getPiece().getType() == PieceType.WKING &&
-                            !board[newX][newY].getPiece().getHasMoved()) {
-                        board[newX][newY].getPiece().setHasCastled(true);
-                    }
-                    if (newX == 3 && newY == 7 && board[newX][newY].hasPiece() && board[newX][newY].getPiece().getType() == PieceType.WROOK &&
-                            !board[newX][newY].getPiece().getHasMoved()) {
-                        board[newX][newY].getPiece().setHasCastled(true);
-                    }
-                    if (newX == 5 && newY == 7 && board[newX][newY].hasPiece() && board[newX][newY].getPiece().getType() == PieceType.WROOK &&
-                            !board[newX][newY].getPiece().getHasMoved()) {
-                        board[newX][newY].getPiece().setHasCastled(true);
-                    }
-                    // Update piece property hasMoved.
-                    board[newX][newY].getPiece().setHasMoved(true);
-                }
-                // Update logic board
-                logic.setBoard(board);
-                /* Save the new position of x, y */
-                x0 = newX;
-                y0 = newY;
             }
         });
 
