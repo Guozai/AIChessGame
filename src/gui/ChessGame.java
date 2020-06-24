@@ -375,6 +375,10 @@ public class ChessGame extends Application {
                     }
                 }
 
+                // Check if the released position is movable
+                if (!board[newX][newY].getHighlight())
+                    isMovable = false;
+
                 if (isMovable == false) {
                     piece.abortMove();
                 } else if (isMovable == true) {
